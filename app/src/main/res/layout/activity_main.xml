@@ -8,6 +8,21 @@
     android:orientation="vertical"
     tools:context=".Activity.MainActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/Theme.AppCompat.Light">
+    </android.support.v7.widget.Toolbar>
+
+    <FrameLayout
+        android:id="@+id/fl_change"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10">
+    </FrameLayout>
 
     <Button
         android:id="@+id/btn_logout"
@@ -15,5 +30,26 @@
         android:layout_height="wrap_content"
         android:text="注销"
         />
+
+    <com.flyco.tablayout.CommonTabLayout
+        android:id="@+id/tl_commen"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#ffffff"
+        app:tl_iconGravity="TOP"
+        app:tl_iconHeight="18dp"
+        app:tl_iconMargin="5dp"
+        app:tl_iconWidth="18dp"
+        app:tl_indicator_bounce_enable="true"
+        app:tl_indicator_color="#1afa29"
+        app:tl_indicator_gravity="BOTTOM"
+        app:tl_indicator_height="0dp"
+        app:tl_textUnselectColor="#e6e6e6"
+        app:tl_textSelectColor="#1afa29"
+        app:tl_textsize="15sp"
+        app:tl_underline_color="#DDDDDD"
+        app:tl_underline_gravity="TOP"
+        app:tl_underline_height="1dp" />
 
 </LinearLayout>

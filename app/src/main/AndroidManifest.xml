@@ -35,7 +35,9 @@
             android:name="Bmob_APP_KEY"
             android:value="d7ff90df3bc6230e86269a4a19921697" />
 
-        <activity android:name=".Activity.MainActivity">
+        <activity
+            android:name=".Activity.MainActivity"
+            android:label="微信">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -62,8 +64,9 @@
         <service android:name="cn.bmob.newim.core.service.HeartBeatService" />
 
         <activity android:name=".Activity.User_regiseter" />
-        <activity android:name=".Activity.User_Login" />
-        <activity android:name=".Activity.First_use"></activity>
+        <activity android:name=".Activity.UserLoginActivity" />
+        <activity android:name=".Activity.FirstuseActivity" />
+        <activity android:name=".Activity.User_information"></activity>
     </application>
 
 </manifest>

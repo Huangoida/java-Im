@@ -39,5 +39,8 @@ dependencies {
     compile 'cn.bmob.android:bmob-im:2.0.6@aar'
     compile 'cn.bmob.android:bmob-sdk:3.5.5'
     compile 'cn.bmob.android:http-legacy:1.0'
+    compile 'com.android.support:support-v4:28.0.0'
+    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+    compile 'com.android.support:recyclerview-v7:28.0.0'
 
 }

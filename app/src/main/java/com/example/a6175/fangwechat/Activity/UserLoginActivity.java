@@ -15,7 +15,7 @@ import com.example.a6175.fangwechat.db.User;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
-public class User_Login extends AppCompatActivity {
+public class UserLoginActivity extends AppCompatActivity {
 
     Button btn_login;
     EditText et_Login_password;
@@ -33,17 +33,16 @@ public class User_Login extends AppCompatActivity {
             public void onClick(View v) {
                 user.setUsername(et_Login_usertel.getText().toString());
                 user.setPassword(et_Login_password.getText().toString());
-
                 user.login(new SaveListener<User>() {
                     @Override
                     public void done(User user, BmobException e) {
                         if (e == null)
                         {
-                            Toast.makeText(User_Login.this,user.getUsername()+"登录成功",Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(User_Login.this,MainActivity.class);
+                            Toast.makeText(UserLoginActivity.this,user.getUsername()+"登录成功",Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(UserLoginActivity.this,MainActivity.class);
                             startActivity(intent);
                             finish();
-                            First_use.instance.finish();
+                            FirstuseActivity.instance.finish();
 
                         }else
                         {
@@ -56,6 +55,7 @@ public class User_Login extends AppCompatActivity {
 
     }
 
+    //初始化控件和对象
     private void init()
     {
         user = new User();
