@@ -9,17 +9,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.a6175.fangwechat.Activity.MainActivity;
 import com.example.a6175.fangwechat.Activity.User_information;
 import com.example.a6175.fangwechat.R;
+import com.example.a6175.fangwechat.db.User;
+import com.squareup.picasso.Picasso;
+
+import cn.bmob.v3.BmobUser;
 
 public class MeFragment extends Fragment implements OnClickListener {
 
     private  String mTitle;
     private View v;
+    private User user;
+    private TextView tv_name;
+    private ImageView imageView;
 
 
 
@@ -42,6 +50,13 @@ public class MeFragment extends Fragment implements OnClickListener {
 
 
     private void init(){
+      user = BmobUser.getCurrentUser(User.class);
+      tv_name =(TextView) v.findViewById(R.id.tvname);
+      tv_name.setText(user.getNickname());
+      imageView=(ImageView)v.findViewById(R.id.head) ;
+      Picasso.with(getActivity()).load(user.getAvater().getFileUrl()).into(imageView);
+
+
 
     }
     private void setOnListener()

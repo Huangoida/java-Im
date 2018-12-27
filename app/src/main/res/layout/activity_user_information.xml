@@ -1,9 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Activity.User_information">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/Theme.AppCompat.Light">
+    </android.support.v7.widget.Toolbar>
+
+    <View
+        android:background="@color/black2"
+        android:layout_width="fill_parent"
+        android:layout_height="20.0dip" />
+
+    <RelativeLayout
+        android:id="@+id/User_avater_change"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:textSize="20sp"
+            android:text="头像" />
+
+        <ImageView
+            android:id="@+id/User_avater"
+            android:layout_width="88dp"
+            android:layout_height="71dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:cropToPadding="true"
+            android:padding="10dp"
+            tools:srcCompat="@tools:sample/avatars" />
+    </RelativeLayout>
+    <View
+        android:background="@color/black2"
+        android:layout_width="fill_parent"
+        android:layout_height="1.0dip" />
+
+    <RelativeLayout
+        android:id="@+id/User_nickname_change"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="10dp"
+            android:text="昵称"
+            android:textSize="20sp" />
+        <TextView
+            android:id="@+id/User_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="12dp"
+            android:text="123dsd"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:background="@color/black2"
+        android:layout_width="fill_parent"
+        android:layout_height="1.0dip" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="10dp"
+            android:text="微信号"
+            android:textSize="20sp" />
+        <TextView
+            android:id="@+id/wxid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="12dp"
+            android:text="123dsd"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:background="@color/black2"
+        android:layout_width="fill_parent"
+        android:layout_height="1.0dip" />
+
+    <RelativeLayout
+        android:id="@+id/User_more"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="10dp"
+            android:text="更多"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
+
+
+
+</LinearLayout>

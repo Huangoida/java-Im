@@ -1,4 +1,4 @@
-package com.example.a6175.fangwechat;
+package com.example.a6175.fangwechat.Utils;
 
 import com.example.a6175.fangwechat.Activity.MainActivity;
 

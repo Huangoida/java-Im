@@ -33,7 +33,7 @@ public class User_regiseter extends AppCompatActivity {
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                user.setName(et_username.getText().toString());
+                user.setNickname(et_username.getText().toString());
                 user.setMobilePhoneNumber(et_usertel.getText().toString());
                 user.setUsername(user.getMobilePhoneNumber());
                 user.setPassword(et_password.getText().toString());

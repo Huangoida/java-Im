@@ -1,4 +1,4 @@
-package com.example.a6175.fangwechat;
+package com.example.a6175.fangwechat.Utils;
 
 import android.app.Application;
 import android.graphics.Color;
