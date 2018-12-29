@@ -42,7 +42,7 @@ public class UserLoginActivity extends AppCompatActivity {
                             Intent intent = new Intent(UserLoginActivity.this,MainActivity.class);
                             startActivity(intent);
                             finish();
-                            FirstuseActivity.instance.finish();
+                            FirstUseActivity.instance.finish();
 
                         }else
                         {

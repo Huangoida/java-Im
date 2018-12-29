@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!-- 获取sd卡写的权限，用于文件上传和下载 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!-- 允许读取手机状态 用于创建BmobInstallation -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- 相机权限 -->
@@ -37,8 +37,6 @@
         <meta-data
             android:name="Bmob_APP_KEY"
             android:value="d7ff90df3bc6230e86269a4a19921697" />
-
-
 
         <activity
             android:name=".Activity.MainActivity"
@@ -70,27 +68,28 @@
 
         <activity android:name=".Activity.User_regiseter" />
         <activity android:name=".Activity.UserLoginActivity" />
-        <activity android:name=".Activity.FirstuseActivity" />
+        <activity android:name=".Activity.FirstUseActivity" />
         <activity android:name=".Activity.User_information" />
-        <activity android:name=".Activity.User_more"></activity>
-
+        <activity android:name=".Activity.User_more" />
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
 
-        <!--<activity android:name="me.iwf.photopicker.PhotoPickerActivity"-->
-            <!--android:theme="@style/Theme.AppCompat.NoActionBar" />-->
+        <!-- <activity android:name="me.iwf.photopicker.PhotoPickerActivity" -->
+        <!-- android:theme="@style/Theme.AppCompat.NoActionBar" /> -->
 
-        <!--<activity android:name="me.iwf.photopicker.PhotoPagerActivity"-->
-            <!--android:theme="@style/Theme.AppCompat.NoActionBar"/>-->
+
+        <!-- <activity android:name="me.iwf.photopicker.PhotoPagerActivity" -->
+        <!-- android:theme="@style/Theme.AppCompat.NoActionBar"/> -->
         <provider
-            android:authorities="com.example.cameraalbumtest.fileprovider"
             android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.example.cameraalbumtest.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"/>
+                android:resource="@xml/file_paths" />
         </provider>
 
+        <activity android:name=".Activity.changeNickName"></activity>
     </application>
 
 </manifest>

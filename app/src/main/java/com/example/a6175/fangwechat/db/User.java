@@ -8,6 +8,15 @@ public class User extends BmobUser {
     private Integer sex;
     private String Nickname;
     private BmobFile avater;
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public BmobFile getAvater() {
         return avater;

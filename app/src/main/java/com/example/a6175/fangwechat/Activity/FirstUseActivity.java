@@ -12,9 +12,9 @@ import com.example.a6175.fangwechat.R;
  * 第一次使用该app会进入该Activity
  */
 
-public class FirstuseActivity extends AppCompatActivity {
+public class FirstUseActivity extends AppCompatActivity {
 
-    public static FirstuseActivity instance;
+    public static FirstUseActivity instance;
     Button btn_login;
     Button btn_registere;
     @Override
@@ -29,7 +29,7 @@ public class FirstuseActivity extends AppCompatActivity {
         btn_registere.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(FirstuseActivity.this,User_regiseter.class);
+                Intent intent = new Intent(FirstUseActivity.this,User_regiseter.class);
                 startActivity(intent);
             }
         });
@@ -37,7 +37,7 @@ public class FirstuseActivity extends AppCompatActivity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(FirstuseActivity.this,UserLoginActivity.class );
+                Intent intent = new Intent(FirstUseActivity.this,UserLoginActivity.class );
                 startActivity(intent);
             }
         });

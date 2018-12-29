@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 import cn.bmob.v3.BmobUser;
 
-public class MainActivity extends AppCompatActivity   {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener  {
 
     private BmobUser user;
     private Button btn_logout;
@@ -44,45 +44,16 @@ public class MainActivity extends AppCompatActivity   {
         setContentView(R.layout.activity_main);
 
         init();
-
-        //User访问本地缓存，看是否有缓存的用户对象
-        user= User.getCurrentUser();
-        if (user != null)
-        {
-            //允许用户使用应用
-            Toast.makeText(MainActivity.this,"存在用户",Toast.LENGTH_SHORT).show();
-
-        }else {
-           //缓存用户对象为空时，可打开用户注册界面
-            Intent intent = new Intent(MainActivity.this,FirstuseActivity.class);
-            startActivity(intent);
-            finish();
-        }
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        //配置TabLayout
-        commonTabLayout.setTabData(customTabEntities,this,R.id.fl_change,mFragments);
-        //设置小圆点
-        commonTabLayout.showDot(0);
-
-        //用户注销按钮
-        btn_logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                User.logOut();
-                Toast.makeText(MainActivity.this,"用户注销",Toast.LENGTH_SHORT).show();
-            }
-        });
-
+        setLister();
+        testUser();
 
     }
 
     //在onCreateOptionsMenu方法中加载toobar.xml文件
+    @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        getMenuInflater().inflate(R.menu.toolbar,menu);
+        getMenuInflater().inflate(R.menu.main_toolbar,menu);
         return  true;
     }
 
@@ -107,6 +78,8 @@ public class MainActivity extends AppCompatActivity   {
 
     //初始化控件和对象
     private void init(){
+
+
     btn_logout = (Button) findViewById(R.id.btn_logout);
     mFragments = new ArrayList<>();
     customTabEntities = new ArrayList<>();
@@ -116,16 +89,53 @@ public class MainActivity extends AppCompatActivity   {
     mFragments.add(ContactsFragment.getInstance(mTitle[1]));
     mFragments.add(MeFragment.getInstance(mTitle[2]));
 
-        for (int i = 0; i < mTitle.length; i++) {
-            customTabEntities.add(new TabEntity(mTitle[i],mIconSelectIds[i],mIconUnselectIds[i]));
-        }
+    for (int i = 0; i < mTitle.length; i++) {
+        customTabEntities.add(new TabEntity(mTitle[i],mIconSelectIds[i],mIconUnselectIds[i]));
+    }
+
+    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    setSupportActionBar(toolbar);
+
+    //配置TabLayout
+    commonTabLayout.setTabData(customTabEntities,this,R.id.fl_change,mFragments);
+    //设置小圆点
+    commonTabLayout.showDot(0);
+    }
+
+    private void setLister() {
+        btn_logout.setOnClickListener(this);
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId())
+        {
+            //用户注销按钮
+            case R.id.btn_logout:
+                User.logOut();
+                Toast.makeText(MainActivity.this,"用户注销",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this,FirstUseActivity.class);
+                startActivity(intent);
+                finish();
 
+        }
+    }
 
+    private void testUser() {
+        //User访问本地缓存，看是否有缓存的用户对象
+        user= User.getCurrentUser();
+        if (user != null)
+        {
+            //允许用户使用应用
+            Toast.makeText(MainActivity.this,"存在用户",Toast.LENGTH_SHORT).show();
 
+        }else {
+            //缓存用户对象为空时，可打开用户注册界面
+            Intent intent = new Intent(MainActivity.this,FirstUseActivity.class);
+            startActivity(intent);
+            finish();
 
-
-
+        }
+    }
 }
