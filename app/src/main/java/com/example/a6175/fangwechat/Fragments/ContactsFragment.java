@@ -38,17 +38,18 @@ public class ContactsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.contactsfragment,null);
         TextView card_title_tv =  v.findViewById(R.id.test2);
+        queryFriends();
         return v;
     }
 
     /**
      * 查询好友
      */
-    public void queryFriends(final FindListener<FriendUser> listener){
+    public void queryFriends(){
         BmobQuery<FriendUser> query = new BmobQuery<>();
         user = BmobUser.getCurrentUser(User.class);
         query.addWhereEqualTo("user",user); //添加查询条件
-        query.include("friendUser");  //关联查询
+        query.include("FriendUser");  //关联查询
         query.order("-updatedAt");  //排序
         query.findObjects(new FindListener<FriendUser>() {
             @Override

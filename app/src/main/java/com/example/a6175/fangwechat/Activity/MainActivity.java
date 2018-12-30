@@ -26,7 +26,10 @@ import com.flyco.tablayout.listener.CustomTabEntity;
 
 import java.util.ArrayList;
 
+import cn.bmob.newim.BmobIM;
+import cn.bmob.newim.listener.ConnectListener;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener  {
 
@@ -141,7 +144,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener  
         if (user != null)
         {
             //允许用户使用应用
-            Toast.makeText(MainActivity.this,"存在用户",Toast.LENGTH_SHORT).show();
+            BmobIM.connect(user.getObjectId(), new ConnectListener() {
+                @Override
+                public void done(String s, BmobException e) {
+                    if (e==null){
+                        ActivityUtils.showShortToast(MainActivity.this,"连接成功");
+                    }else {
+                        ActivityUtils.showShortToast(MainActivity.this,"连接失败");
+                    }
+                }
+            });
 
         }else {
             //缓存用户对象为空时，可打开用户注册界面

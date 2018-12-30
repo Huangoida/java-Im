@@ -23,26 +23,26 @@ public class ImApplication extends Application {
         conText = getApplicationContext();
 
         Bmob.initialize(this,"d7ff90df3bc6230e86269a4a19921697");
-//        if (getApplicationInfo().packageName.equals(getMyProcessName())){
-//            BmobIM.init(this);
-//            BmobIM.registerDefaultMessageHandler(new ImMessageHandler());
-//        }
+        if (getApplicationInfo().packageName.equals(getMyProcessName())){
+            BmobIM.init(this);
+            BmobIM.registerDefaultMessageHandler(new ImMessageHandler());
+        }
     }
 
     public static Context getContext() {
         return conText;
     }
 
-//    public static String getMyProcessName(){
-//        try {
-//            File file = new File("/proc/" + android.os.Process.myPid() + "/" + "cmdline");
-//            BufferedReader mBufferedReader = new BufferedReader(new FileReader(file));
-//            String processName = mBufferedReader.readLine().trim();
-//            mBufferedReader.close();
-//            return processName;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
+    public static String getMyProcessName(){
+        try {
+            File file = new File("/proc/" + android.os.Process.myPid() + "/" + "cmdline");
+            BufferedReader mBufferedReader = new BufferedReader(new FileReader(file));
+            String processName = mBufferedReader.readLine().trim();
+            mBufferedReader.close();
+            return processName;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
