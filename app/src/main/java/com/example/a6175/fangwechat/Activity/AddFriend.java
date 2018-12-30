@@ -81,6 +81,7 @@ public class AddFriend extends BaseActivity implements View.OnClickListener {
                             ActivityUtils.showShortToast(AddFriend.this,"查询成功");
                             Intent intent = new Intent(AddFriend.this,detailInformation.class);
                             intent.putExtra("User_data",user);
+                            intent.putExtra("CODE",0);
                             startActivity(intent);
                             return;
                         }

@@ -22,7 +22,7 @@ public class ImApplication extends Application {
         super.onCreate();
         conText = getApplicationContext();
 
-        Bmob.initialize(this,"d7ff90df3bc6230e86269a4a19921697");
+        //Bmob.initialize(this,"d7ff90df3bc6230e86269a4a19921697");
         if (getApplicationInfo().packageName.equals(getMyProcessName())){
             BmobIM.init(this);
             BmobIM.registerDefaultMessageHandler(new ImMessageHandler());
@@ -32,6 +32,11 @@ public class ImApplication extends Application {
     public static Context getContext() {
         return conText;
     }
+
+    /**
+     * 获取当前进程名
+     * @return
+     */
 
     public static String getMyProcessName(){
         try {

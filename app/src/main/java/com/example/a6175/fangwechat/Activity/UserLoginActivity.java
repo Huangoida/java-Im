@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.a6175.fangwechat.R;
+import com.example.a6175.fangwechat.Utils.ActivityUtils;
 import com.example.a6175.fangwechat.db.User;
 
 import cn.bmob.v3.exception.BmobException;
@@ -46,7 +47,7 @@ public class UserLoginActivity extends AppCompatActivity {
 
                         }else
                         {
-                            Log.e("登录失败","原因",e);
+                            ActivityUtils.showShortToast(UserLoginActivity.this,e.getMessage());
                         }
                     }
                 });

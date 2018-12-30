@@ -1,6 +1,5 @@
 package com.example.a6175.fangwechat.Activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -12,7 +11,6 @@ import com.example.a6175.fangwechat.BaseActivity;
 import com.example.a6175.fangwechat.R;
 import com.example.a6175.fangwechat.Utils.ActivityUtils;
 import com.example.a6175.fangwechat.db.FriendUser;
-import com.example.a6175.fangwechat.db.NewFriend;
 import com.example.a6175.fangwechat.db.User;
 import com.squareup.picasso.Picasso;
 
@@ -28,6 +26,7 @@ public class detailInformation extends BaseActivity {
     private ImageView User_avater;
     private TextView sign;
     private Button addFriend;
+    private int status_code;//判断是否是好友
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +36,10 @@ public class detailInformation extends BaseActivity {
         addFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddFriend();
+                if (status_code==0){
+                    AddFriend();
+                }
+
             }
         });
 
@@ -54,6 +56,11 @@ public class detailInformation extends BaseActivity {
 
     @Override
     protected void initView() {
+        if (status_code==0){
+            addFriend.setText("添加到通讯录");
+        }else {
+            addFriend.setText("发消息");
+        }
         User_nickname.setText(user.getNickname());
         Picasso.with(this).load(user.getAvater().getFileUrl()).into(User_avater);
         sign.setText("空");
@@ -62,6 +69,7 @@ public class detailInformation extends BaseActivity {
     @Override
     protected void initData() {
         user=(User)getIntent().getSerializableExtra("User_data");
+        status_code = getIntent().getIntExtra("CODE",0);
     }
 
     @Override
@@ -73,12 +81,12 @@ public class detailInformation extends BaseActivity {
         final FriendUser friendUser = new FriendUser();
         final User UserNow = BmobUser.getCurrentUser(User.class);
         friendUser.setUser(UserNow);
-        friendUser.setFirendUser(user);
+        friendUser.setFriendUser(user);
         friendUser.save(new SaveListener<String>() {
             @Override
             public void done(String s, BmobException e) {
                 if (e==null){
-                    friendUser.setFirendUser(UserNow);
+                    friendUser.setFriendUser(UserNow);
                     friendUser.setUser(user);
                     friendUser.save(new SaveListener<String>() {//双向存储
                         @Override

@@ -8,7 +8,7 @@ import cn.bmob.v3.BmobObject;
  */
 public class FriendUser extends BmobObject {
     private User user;
-    private User firendUser;
+    private User friendUser;
 
     public User getUser() {
         return user;
@@ -18,11 +18,11 @@ public class FriendUser extends BmobObject {
         this.user = user;
     }
 
-    public User getFirendUser() {
-        return firendUser;
+    public User getFriendUser() {
+        return friendUser;
     }
 
-    public void setFirendUser(User firendUser) {
-        this.firendUser = firendUser;
+    public void setFriendUser(User friendUser) {
+        this.friendUser = friendUser;
     }
 }

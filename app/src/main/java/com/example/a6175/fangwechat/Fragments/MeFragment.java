@@ -37,7 +37,6 @@ public class MeFragment extends Fragment implements OnClickListener {
         v = inflater.inflate(R.layout.mefragment,null);
         init();
         setOnListener();
-
         return v;
     }
 
