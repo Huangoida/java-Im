@@ -23,7 +23,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.a6175.fangwechat.BaseActivity;
 import com.example.a6175.fangwechat.R;
+import com.example.a6175.fangwechat.Utils.ActivityUtils;
 import com.example.a6175.fangwechat.Utils.PhotoUtils;
 import com.example.a6175.fangwechat.db.User;
 import com.soundcloud.android.crop.Crop;
@@ -40,7 +42,7 @@ import cn.bmob.v3.listener.UploadFileListener;
 
 
 
-public class User_information extends AppCompatActivity implements View.OnClickListener {
+public class User_information extends BaseActivity implements View.OnClickListener {
 
 
     private  RelativeLayout avater;   //头像布局
@@ -53,7 +55,6 @@ public class User_information extends AppCompatActivity implements View.OnClickL
     private Uri imageUri;
     private Uri outputUri;
     private PhotoUtils photoUtils;
-    private Toolbar toolbar;
 
     String path="";
 
@@ -63,15 +64,46 @@ public class User_information extends AppCompatActivity implements View.OnClickL
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_information);
+        super.onCreate(savedInstanceState);
 
+    }
 
-        init();
-        setListener();
-        getInformation();
+    @Override
+    protected void initControl() {
+        avater =  findViewById(R.id.User_avater_change);
+        nick_change = findViewById(R.id.User_nickname_change);
+        more =  findViewById(R.id.User_more);
+        User_avater = findViewById(R.id.User_avater);
+        nickname =  findViewById(R.id.User_nickname);
+        wxid = findViewById(R.id.wxid);
+        Toolbar toolbar =  findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("个人信息");
 
+    }
 
+    @Override
+    protected void initView() {
+
+        nickname.setText(user.getNickname());
+        wxid.setText(user.getId());
+        BmobFile file = user.getAvater();
+        Picasso.with(this).load(user.getAvater().getFileUrl()).into(User_avater);
+    }
+
+    @Override
+    protected void initData() {
+        user = BmobUser.getCurrentUser(User.class);
+        photoUtils= new PhotoUtils();
+    }
+
+    @Override
+    protected void setListener() {
+        nick_change.setOnClickListener(this);
+        more.setOnClickListener(this);
+        avater.setOnClickListener(this);
     }
 
     @Override
@@ -83,12 +115,10 @@ public class User_information extends AppCompatActivity implements View.OnClickL
                 UploadAvater();
                 break;
             case R.id.User_nickname_change:
-                intent=new Intent(User_information.this,changeNickName.class);
-                startActivity(intent);
+                ActivityUtils.start_Activity(User_information.this,changeNickName.class);
                 break;
             case R.id.User_more:
-                intent=new Intent(User_information.this,User_more.class);
-                startActivity(intent);
+                ActivityUtils.start_Activity(User_information.this,User_more.class);
                 break;
 
         }
@@ -106,43 +136,6 @@ public class User_information extends AppCompatActivity implements View.OnClickL
         }
         return super.onOptionsItemSelected(item);
     }
-
-    public void init()
-    {
-        photoUtils= new PhotoUtils();
-        avater = (RelativeLayout) findViewById(R.id.User_avater_change);
-        nick_change = (RelativeLayout)findViewById(R.id.User_nickname_change);
-        more = (RelativeLayout) findViewById(R.id.User_more);
-        User_avater = (ImageView) findViewById(R.id.User_avater);
-        nickname = (TextView) findViewById(R.id.User_nickname);
-        wxid = (TextView)findViewById(R.id.wxid);
-        user = BmobUser.getCurrentUser(User.class);
-        toolbar=(Toolbar)findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.fanhui);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("个人信息");
-    }
-
-
-    public void setListener()
-    {
-      nick_change.setOnClickListener(this);
-      more.setOnClickListener(this);
-      avater.setOnClickListener(this);
-    }
-
-
-    //获得帐号信息
-    public void getInformation()
-    {
-        nickname.setText(user.getNickname());
-        wxid.setText(user.getObjectId());
-        BmobFile file = user.getAvater();
-        Picasso.with(this).load(user.getAvater().getFileUrl()).into(User_avater);
-
-    }
-
 
     @Override
     protected void onStart() {

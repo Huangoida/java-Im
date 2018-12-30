@@ -53,16 +53,16 @@ public class MeFragment extends Fragment implements OnClickListener {
         super.onStart();
         user = BmobUser.getCurrentUser(User.class);
 
-//        Picasso.with(getActivity()).load(user.getAvater().getFileUrl()).into(imageView);
+        Picasso.with(getActivity()).load(user.getAvater().getFileUrl()).into(imageView);
         tv_name.setText(user.getNickname());
     }
 
     //初始化控件
     private void init(){
         user = BmobUser.getCurrentUser(User.class);
-      tv_name =(TextView) v.findViewById(R.id.tvname);
+      tv_name = v.findViewById(R.id.tvname);
       tv_name.setText(user.getNickname());
-      imageView=(ImageView)v.findViewById(R.id.head) ;
+      imageView= v.findViewById(R.id.head) ;
     }
     private void setOnListener()
     {

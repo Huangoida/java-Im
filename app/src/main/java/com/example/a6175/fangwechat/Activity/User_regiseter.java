@@ -13,7 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.a6175.fangwechat.BaseActivity;
 import com.example.a6175.fangwechat.R;
+import com.example.a6175.fangwechat.Utils.ActivityUtils;
 import com.example.a6175.fangwechat.Utils.PhotoUtils;
 import com.example.a6175.fangwechat.db.User;
 import com.squareup.picasso.Picasso;
@@ -32,7 +34,7 @@ import cn.bmob.v3.listener.UploadFileListener;
 /**
  * 注册的活动
  */
-public class User_regiseter extends AppCompatActivity {
+public class User_regiseter extends BaseActivity {
 
     Button btn_register;
     EditText et_username;
@@ -41,9 +43,8 @@ public class User_regiseter extends AppCompatActivity {
     User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_regiseter);
-        init();
+        super.onCreate(savedInstanceState);
 
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,38 +59,51 @@ public class User_regiseter extends AppCompatActivity {
                     public void done(User user, BmobException e) {
                         if (e == null)
                         {
-                            Toast.makeText(User_regiseter.this,"注册成功",Toast.LENGTH_SHORT).show();
+                            ActivityUtils.showShortToast(User_regiseter.this,"注册成功");
                             user.setId("wxid_"+user.getObjectId());
                             user.update(new UpdateListener() {
                                 @Override
                                 public void done(BmobException e) {
+                                    if (e == null){
 
+                                    }else {
+
+                                    }
                                 }
                             });
                             finish();//注册成功后退出该活动
                         }else
                         {
-                            Toast.makeText(User_regiseter.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                            ActivityUtils.showShortToast(User_regiseter.this,e.getMessage());
                         }
                     }
                 });
             }
         });
+    }
 
+    @Override
+    protected void initControl() {
+
+        btn_register =  findViewById(R.id.btn_register);
+        et_password =  findViewById(R.id.et_password);
+        et_username =  findViewById(R.id.et_username);
+        et_usertel =  findViewById(R.id.et_usertel);
+    }
+
+    @Override
+    protected void initView() {
 
     }
 
-    /**
-     * 初始化组件
-     */
-
-    private  void init()
-    {
+    @Override
+    protected void initData() {
         user = new User();
-        btn_register = (Button) findViewById(R.id.btn_register);
-        et_password = (EditText) findViewById(R.id.et_password);
-        et_username = (EditText) findViewById(R.id.et_username);
-        et_usertel = (EditText) findViewById(R.id.et_usertel);
+    }
+
+    @Override
+    protected void setListener() {
+
     }
 
 

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ebebeb"
+    tools:context=".Activity.AddFriend">
+
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:title="添加朋友"
+        app:popupTheme="@style/Theme.AppCompat.Light">
+    </android.support.v7.widget.Toolbar>
+
+    <View
+        android:background="@color/black2"
+        android:layout_width="fill_parent"
+        android:layout_height="20.0dip" />
+
+    <LinearLayout
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="60dp">
+
+        <ImageView
+            android:id="@+id/search_button"
+            android:layout_width="46dp"
+            android:layout_height="39dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/search" />
+        <EditText
+            android:id="@+id/edit_query"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="手机号/微信号" />
+    </LinearLayout>
+
+    <View
+        android:background="@color/black2"
+        android:layout_width="fill_parent"
+        android:layout_height="20.0dip" >
+    </View>
+
+
+
+</LinearLayout>
