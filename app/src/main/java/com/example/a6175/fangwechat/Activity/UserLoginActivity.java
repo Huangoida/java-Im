@@ -3,7 +3,6 @@ package com.example.a6175.fangwechat.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,7 +10,7 @@ import android.widget.Toast;
 
 import com.example.a6175.fangwechat.R;
 import com.example.a6175.fangwechat.Utils.ActivityUtils;
-import com.example.a6175.fangwechat.db.User;
+import com.example.a6175.fangwechat.bean.User;
 
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;

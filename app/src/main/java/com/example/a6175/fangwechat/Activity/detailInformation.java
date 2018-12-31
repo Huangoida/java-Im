@@ -1,5 +1,6 @@
 package com.example.a6175.fangwechat.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -10,10 +11,14 @@ import android.widget.TextView;
 import com.example.a6175.fangwechat.BaseActivity;
 import com.example.a6175.fangwechat.R;
 import com.example.a6175.fangwechat.Utils.ActivityUtils;
-import com.example.a6175.fangwechat.db.FriendUser;
-import com.example.a6175.fangwechat.db.User;
+import com.example.a6175.fangwechat.bean.FriendUser;
+import com.example.a6175.fangwechat.bean.User;
 import com.squareup.picasso.Picasso;
 
+import cn.bmob.newim.BmobIM;
+import cn.bmob.newim.bean.BmobIMConversation;
+import cn.bmob.newim.bean.BmobIMUserInfo;
+import cn.bmob.newim.listener.ConversationListener;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
@@ -27,6 +32,7 @@ public class detailInformation extends BaseActivity {
     private TextView sign;
     private Button addFriend;
     private int status_code;//判断是否是好友
+    private BmobIMConversation conversationEntrance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +44,26 @@ public class detailInformation extends BaseActivity {
             public void onClick(View v) {
                 if (status_code==0){
                     AddFriend();
+                }else {
+                    BmobIMUserInfo info = new BmobIMUserInfo(user.getId(),user.getNickname(),user.getAvater().getFileUrl());
+                    //开启私聊会话，设置会话保存在本地会话表中
+                    conversationEntrance = BmobIM.getInstance().startPrivateConversation(info, new ConversationListener() {
+                        @Override
+                        public void done(BmobIMConversation bmobIMConversation, BmobException e) {
+                            if (e == null){
+                                Intent intent = new Intent(detailInformation.this,chatMsg.class);
+                                intent.putExtra("User_data",user);
+                                intent.putExtra("c",bmobIMConversation);
+                                startActivity(intent);
+                                finish(detailInformation.this);
+                            }
+                        }
+                    });
+
                 }
 
             }
         });
-
     }
 
     @Override

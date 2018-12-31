@@ -9,7 +9,7 @@ import android.widget.EditText;
 import com.example.a6175.fangwechat.BaseActivity;
 import com.example.a6175.fangwechat.R;
 import com.example.a6175.fangwechat.Utils.ActivityUtils;
-import com.example.a6175.fangwechat.db.User;
+import com.example.a6175.fangwechat.bean.User;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;

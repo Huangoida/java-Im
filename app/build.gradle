@@ -40,7 +40,7 @@ dependencies {
 
     //工具
     implementation 'org.greenrobot:eventbus:3.1.1'
-  //  implementation 'com.google.code.gson:gson:2.8.5'
+    //  implementation 'com.google.code.gson:gson:2.8.5'
 
     //bmob sdk
     implementation 'cn.bmob.android:bmob-im:2.0.6@aar'
@@ -53,6 +53,7 @@ dependencies {
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+    implementation 'com.github.stfalcon:chatkit:0.3.3'
 
     //图片
 

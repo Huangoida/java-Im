@@ -2,9 +2,8 @@ package com.example.a6175.fangwechat.Utils;
 
 import android.util.Log;
 
-import com.example.a6175.fangwechat.db.NewFriend;
-import com.example.a6175.fangwechat.db.User;
-import com.koushikdutta.async.http.socketio.SocketIORequest;
+import com.example.a6175.fangwechat.bean.NewFriend;
+import com.example.a6175.fangwechat.bean.User;
 
 import java.util.HashMap;
 import java.util.Map;

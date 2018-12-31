@@ -10,12 +10,10 @@ import android.net.Uri;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
-import com.example.a6175.fangwechat.Activity.User_information;
-import com.soundcloud.android.crop.Crop;
+import com.example.a6175.fangwechat.ImApplication;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 

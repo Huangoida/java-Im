@@ -1,35 +1,19 @@
 package com.example.a6175.fangwechat.Activity;
 
-import android.annotation.SuppressLint;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.a6175.fangwechat.BaseActivity;
 import com.example.a6175.fangwechat.R;
 import com.example.a6175.fangwechat.Utils.ActivityUtils;
-import com.example.a6175.fangwechat.Utils.PhotoUtils;
-import com.example.a6175.fangwechat.db.User;
-import com.squareup.picasso.Picasso;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import com.example.a6175.fangwechat.bean.User;
 
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
-import cn.bmob.v3.listener.UploadFileListener;
 
 /**
  * 注册的活动

@@ -2,13 +2,12 @@ package com.example.a6175.fangwechat.Adapter;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.a6175.fangwechat.R;
-import com.example.a6175.fangwechat.db.User;
+import com.example.a6175.fangwechat.bean.User;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

@@ -1,36 +1,43 @@
-package com.example.a6175.fangwechat.Utils;
+package com.example.a6175.fangwechat;
 
 import android.app.Application;
 import android.content.Context;
-import android.graphics.Color;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
 import cn.bmob.newim.BmobIM;
-import cn.bmob.newim.listener.BmobIMMessageHandler;
-import cn.bmob.v3.Bmob;
 
 public class ImApplication extends Application {
 
-    private static Context conText;
+    private static Context context;
+    private static ImApplication INSTANCE;
+    public static ImApplication INSTANCE(){
+        return INSTANCE;
+    }
+    private void setInstance(ImApplication app){
+        setImApplication(app);
+    }
+    private static void setImApplication(ImApplication a){
+        ImApplication.INSTANCE = a;
+    }
 
     @Override
     public void onCreate() {
-
         super.onCreate();
-        conText = getApplicationContext();
-
+        setInstance(this);
+        Log.d("bmob", "smile");
         //Bmob.initialize(this,"d7ff90df3bc6230e86269a4a19921697");
         if (getApplicationInfo().packageName.equals(getMyProcessName())){
             BmobIM.init(this);
-            BmobIM.registerDefaultMessageHandler(new ImMessageHandler());
+            BmobIM.registerDefaultMessageHandler(new ImMessageHandler(this));
         }
     }
 
     public static Context getContext() {
-        return conText;
+        return context;
     }
 
     /**

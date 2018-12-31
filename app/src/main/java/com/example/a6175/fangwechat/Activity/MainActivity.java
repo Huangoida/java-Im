@@ -2,7 +2,6 @@ package com.example.a6175.fangwechat.Activity;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -19,7 +18,7 @@ import com.example.a6175.fangwechat.Fragments.WechatFragment;
 import com.example.a6175.fangwechat.R;
 import com.example.a6175.fangwechat.TabEntity;
 import com.example.a6175.fangwechat.Utils.ActivityUtils;
-import com.example.a6175.fangwechat.db.User;
+import com.example.a6175.fangwechat.bean.User;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 

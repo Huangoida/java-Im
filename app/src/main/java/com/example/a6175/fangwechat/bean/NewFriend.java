@@ -1,4 +1,4 @@
-package com.example.a6175.fangwechat.db;
+package com.example.a6175.fangwechat.bean;
 
 /**本地的好友请求类
  *
