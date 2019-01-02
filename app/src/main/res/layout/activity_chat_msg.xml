@@ -6,22 +6,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.chatMsg"
-    android:orientation="vertical">
-    <com.stfalcon.chatkit.messages.MessagesList
-        android:id="@+id/messagesList"
+    android:orientation="vertical"
+    tools:context=".Activity.chatMsg">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10"
-        android:layout_above="@+id/input" />
-    <com.stfalcon.chatkit.messages.MessageInput
-        android:id="@+id/input"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/Theme.AppCompat.Light" />
+
+    <fragment
+        android:id="@+id/messageList_fragment"
+        android:name="com.example.a6175.fangwechat.Fragments.messageList"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        app:inputTextColor="@color/black"
-        android:layout_alignParentBottom="true"
-        />
+        android:layout_height="match_parent"
+ />
+
 
 
 </LinearLayout>

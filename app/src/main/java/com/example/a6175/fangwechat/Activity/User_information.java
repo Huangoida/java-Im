@@ -206,24 +206,24 @@ public class User_information extends BaseActivity implements View.OnClickListen
        if (resultCode == RESULT_OK) {
            switch (requestCode) {
                case TAKE_PHOTO:
-                   imageUri=photoUtils.getImageContentUri(path);
+                   imageUri=photoUtils.getImageContentUri(this,path);
                    beginCrop();
                    break;
                case CHOOSE_PHOTO:
                    //判断系统版本，调用不同方法
                     if(Build.VERSION.SDK_INT>= 19){
-                        path=photoUtils.handleImageOnKitKat(data);
+                        path=photoUtils.handleImageOnKitKat(this,data);
                     }else {
-                        path=photoUtils.handleImageBeforeKitKat(data);
+                        path=photoUtils.handleImageBeforeKitKat(this,data);
                     }
-                    imageUri=photoUtils.getImageContentUri(path);
+                    imageUri=photoUtils.getImageContentUri(this,path);
                     beginCrop();
                     break;
                case Crop.REQUEST_CROP:
                     Bundle bundle = data.getExtras();
                     if (bundle !=null)
                     {
-                        String uploadPath=photoUtils.getImagePath(Crop.getOutput(data),null);//获得裁剪后的图片绝对路径
+                        String uploadPath=photoUtils.getImagePath(this,Crop.getOutput(data),null);//获得裁剪后的图片绝对路径
                         final BmobFile file = new BmobFile(new File(uploadPath));
                         file.upload(new UploadFileListener() {
                             @Override
@@ -258,7 +258,7 @@ public class User_information extends BaseActivity implements View.OnClickListen
     }
     //裁剪图片
     private void beginCrop() {
-        outputUri= photoUtils.getImageContentUri(path+"crop.jpg");
+        outputUri= photoUtils.getImageContentUri(this,path+"crop.jpg");
         Crop.of(imageUri,outputUri).asSquare().start(User_information.this);
     }
 

@@ -3,6 +3,7 @@ package com.example.a6175.fangwechat.Utils;
 import android.annotation.TargetApi;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -10,7 +11,7 @@ import android.net.Uri;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
-import com.example.a6175.fangwechat.ImApplication;
+
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -24,23 +25,23 @@ public class PhotoUtils {
 
     //解析Uri android 4.4以上
     @TargetApi(19)
-    public String handleImageOnKitKat(Intent data){
+    public String handleImageOnKitKat(Context context, Intent data){
        String path = null;
         Uri uri=data.getData();
-        if (DocumentsContract.isDocumentUri(ImApplication.getContext(),uri))
+        if (DocumentsContract.isDocumentUri(context,uri))
         {
             //如果是document类型的uri，通过document id处理
             String docId = DocumentsContract.getDocumentId(uri);
             if("com.android.providers.media.documents".equals(uri.getAuthority())) {
                 String id =docId.split(":")[1];//解析出数字id
                 String selection = MediaStore.Images.Media._ID + "="+id;
-                path = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,selection);
+                path = getImagePath(context,MediaStore.Images.Media.EXTERNAL_CONTENT_URI,selection);
             }else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
                 Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"),Long.valueOf(docId));
-                path = getImagePath(contentUri,null);
+                path = getImagePath(context,contentUri,null);
             }
         }else if("content".equalsIgnoreCase(uri.getScheme())){
-            path = getImagePath(uri,null);
+            path = getImagePath(context,uri,null);
         }else if("file".equalsIgnoreCase(uri.getScheme())) {
             path = uri.getPath();
         }
@@ -48,17 +49,17 @@ public class PhotoUtils {
     }
 
     //解析Uri android 4.4以下
-    public String handleImageBeforeKitKat(Intent data) {
+    public String handleImageBeforeKitKat(Context context,Intent data) {
         Uri uri = data.getData();
-       String path =getImagePath(uri,null);
+       String path =getImagePath(context,uri,null);
        return path;
     }
 
     //从URI获得图像的路径
-    public String getImagePath (Uri uri,String selection) {
+    public String getImagePath (Context context,Uri uri,String selection) {
         String path = null;
         //通过Uri和selection来获取真实的图片路径
-        Cursor cursor =ImApplication.getContext().getContentResolver().query(uri,null,selection,null,null);
+        Cursor cursor =context.getContentResolver().query(uri,null,selection,null,null);
         if (cursor!=null) {
             if (cursor.moveToFirst()) {
                 path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
@@ -69,8 +70,8 @@ public class PhotoUtils {
     }
 
     //从图像的路径获得URI
-    public Uri getImageContentUri(String path){
-        Cursor cursor = ImApplication.getContext().getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+    public Uri getImageContentUri(Context context,String path){
+        Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 new String[]{MediaStore.Images.Media._ID},
                 MediaStore.Images.Media.DATA + "=? ",
                 new String[]{path}, null);
@@ -81,7 +82,7 @@ public class PhotoUtils {
         }else {
             ContentValues contentValues = new ContentValues(1);
             contentValues.put(MediaStore.Images.Media.DATA, path);
-            return ImApplication.getContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+            return context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
         }
     }
 
