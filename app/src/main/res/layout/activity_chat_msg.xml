@@ -21,8 +21,7 @@
         android:id="@+id/messageList_fragment"
         android:name="com.example.a6175.fangwechat.Fragments.messageList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
- />
+        android:layout_height="match_parent" />
 
 
 

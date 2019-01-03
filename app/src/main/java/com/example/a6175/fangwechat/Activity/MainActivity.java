@@ -1,9 +1,14 @@
 package com.example.a6175.fangwechat.Activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,44 +16,74 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.example.a6175.fangwechat.Adapter.ContactsAdapter;
 import com.example.a6175.fangwechat.BaseActivity;
 import com.example.a6175.fangwechat.Fragments.ContactsFragment;
 import com.example.a6175.fangwechat.Fragments.MeFragment;
 import com.example.a6175.fangwechat.Fragments.WechatFragment;
+import com.example.a6175.fangwechat.ImMessageHandler;
 import com.example.a6175.fangwechat.R;
 import com.example.a6175.fangwechat.TabEntity;
 import com.example.a6175.fangwechat.Utils.ActivityUtils;
+import com.example.a6175.fangwechat.bean.Conversation;
+import com.example.a6175.fangwechat.bean.FriendUser;
 import com.example.a6175.fangwechat.bean.User;
+import com.example.a6175.fangwechat.db.DefaultDialog;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
+import com.stfalcon.chatkit.commons.ImageLoader;
+import com.stfalcon.chatkit.dialogs.DialogsList;
+import com.stfalcon.chatkit.dialogs.DialogsListAdapter;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cn.bmob.newim.BmobIM;
+import cn.bmob.newim.bean.BmobIMUserInfo;
 import cn.bmob.newim.listener.ConnectListener;
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener  {
+public class MainActivity extends BaseActivity implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback  {
 
     private BmobUser user;
     private Button btn_logout;
     private ArrayList<Fragment> mFragments ;
     private ArrayList<CustomTabEntity> customTabEntities ;
+    final private  int REQUEST_READ_PHONE_STATE =1;
     private String[] mTitle = {"微信","通讯录","我"};
     private int[] mIconUnselectIds = {R.drawable.wechat_defult,R.drawable.tongxunlu_defult,R.drawable.my_defult};
     private int[] mIconSelectIds = {R.drawable.wechat_selected,R.drawable.tongxunlu_selected,R.drawable.my_selected};
     private CommonTabLayout commonTabLayout;
     private Toolbar toolbar;
+    private DialogsListAdapter dialogsListAdapter ;
+    private ImageLoader imageLoader;
+    private List<DefaultDialog>dialogList;
+    private DialogsList dialogsList;
+    private List<Conversation> lists;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
+        requestReadPhonePermission();
         testUser();
     }
+
+    private void requestReadPhonePermission() {
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE);
+
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE);
+        } else {
+        }
+    }
+
 
     @Override
     protected void initControl() {
@@ -121,6 +156,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener  
         return  true;
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_READ_PHONE_STATE:
+                if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    BmobIM.init(this);
+                    BmobIM.registerDefaultMessageHandler(new ImMessageHandler(this));
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -139,6 +189,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener  
 
     private void testUser() {
         //User访问本地缓存，看是否有缓存的用户对象
+
         user= User.getCurrentUser();
         if (user != null)
         {
@@ -151,6 +202,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener  
                     }else {
                         ActivityUtils.showShortToast(MainActivity.this,"连接失败");
                     }
+
                 }
             });
 
@@ -162,4 +214,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener  
 
         }
     }
+
+
 }

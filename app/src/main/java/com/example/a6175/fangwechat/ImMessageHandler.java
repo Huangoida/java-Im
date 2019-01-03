@@ -5,10 +5,13 @@ import android.util.Log;
 
 import com.example.a6175.fangwechat.bean.User;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import cn.bmob.newim.bean.BmobIMMessage;
 import cn.bmob.newim.event.MessageEvent;
 import cn.bmob.newim.event.OfflineMessageEvent;
 import cn.bmob.newim.listener.BmobIMMessageHandler;
@@ -31,8 +34,7 @@ public class ImMessageHandler extends BmobIMMessageHandler {
 
     @Override
     public void onMessageReceive(MessageEvent messageEvent) {
-        List<String>strings =new ArrayList<>();
-
+        excuteMessage(messageEvent);
 
         //当接收到服务器发来的消息时，此方法被调用。
 
@@ -40,14 +42,22 @@ public class ImMessageHandler extends BmobIMMessageHandler {
 
     @Override
     public void onOfflineReceive(OfflineMessageEvent offlineMessageEvent) {
-        super.onOfflineReceive(offlineMessageEvent);
         Map<String,List<MessageEvent>> map = offlineMessageEvent.getEventMap();
         Log.d("receive", map.size()+"个用户");
         for (Map.Entry<String, List<MessageEvent>> entry :map.entrySet()) {
             List<MessageEvent> list = entry.getValue();
+            int size =list.size();
+            for (int i = 0; i < size; i++) {
+                excuteMessage(list.get(i));
+            }
 
         }
-        user = BmobUser.getCurrentUser(User.class);
         //每次调用connect方法时会查询一次离线消息，如果有，此方法会被调用
+    }
+
+    private void excuteMessage(final  MessageEvent event){
+        user =BmobUser.getCurrentUser(User.class);
+        BmobIMMessage msg =event.getMessage();
+        EventBus.getDefault().post(event);
     }
 }

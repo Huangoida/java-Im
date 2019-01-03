@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileReader;
 
 import cn.bmob.newim.BmobIM;
+import cn.bmob.v3.Bmob;
 
 public class ImApplication extends Application {
 
@@ -29,7 +30,7 @@ public class ImApplication extends Application {
         super.onCreate();
         setInstance(this);
         Log.d("bmob", "smile");
-        //Bmob.initialize(this,"d7ff90df3bc6230e86269a4a19921697");
+        Bmob.initialize(this,"d7ff90df3bc6230e86269a4a19921697");
         if (getApplicationInfo().packageName.equals(getMyProcessName())){
             BmobIM.init(this);
             BmobIM.registerDefaultMessageHandler(new ImMessageHandler(this));

@@ -3,13 +3,16 @@ package com.example.a6175.fangwechat.Fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.a6175.fangwechat.R;
+import com.example.a6175.fangwechat.Utils.ActivityUtils;
 import com.example.a6175.fangwechat.bean.User;
 import com.example.a6175.fangwechat.db.Author;
 import com.example.a6175.fangwechat.db.Message;
@@ -20,15 +23,18 @@ import com.stfalcon.chatkit.messages.MessagesList;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.Date;
 import java.util.List;
 
+import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.bean.BmobIMConversation;
 import cn.bmob.newim.bean.BmobIMMessage;
 import cn.bmob.newim.bean.BmobIMTextMessage;
 import cn.bmob.newim.bean.BmobIMUserInfo;
 import cn.bmob.newim.core.BmobIMClient;
+import cn.bmob.newim.core.ConnectionStatus;
 import cn.bmob.newim.event.MessageEvent;
 import cn.bmob.newim.event.OfflineMessageEvent;
 import cn.bmob.newim.listener.MessageListHandler;
@@ -69,12 +75,11 @@ public class messageList extends Fragment implements MessageListHandler {
 
     private void initData(){
         //注册EventBus
-        EventBus.getDefault().register(this);
+       // EventBus.getDefault().register(this);
         user = BmobUser.getCurrentUser(User.class);
         //friend =(User)getIntent().getSerializableExtra("User_data");
         //创建新的对话实例，obtain方法才是真正创建一个管理消息发送的会话
-        conversationEntrance = BmobIMConversation.obtain(BmobIMClient.getInstance()
-                ,((BmobIMConversation)getActivity().getIntent().getSerializableExtra("c")));
+        conversationEntrance = BmobIMConversation.obtain(BmobIMClient.getInstance(),((BmobIMConversation)getActivity().getIntent().getSerializableExtra("c")));
         imageLoader =new ImageLoader() {
             @Override
             public void loadImage(ImageView imageView, @Nullable String url, @Nullable Object payload) {
@@ -88,14 +93,6 @@ public class messageList extends Fragment implements MessageListHandler {
         messagesList.setAdapter(adapter);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //在销毁当前界面时，注销EventBus
-        EventBus.getDefault().unregister(this);
-    }
-
-
 
     private void setListener(){
         //设置文本提交的监听器
@@ -104,17 +101,7 @@ public class messageList extends Fragment implements MessageListHandler {
             public boolean onSubmit(CharSequence input) {
                 final BmobIMTextMessage msg = new BmobIMTextMessage();
                 msg.setContent(input.toString());
-                conversationEntrance.sendMessage(msg, new MessageSendListener() {
-                    @Override
-                    public void done(BmobIMMessage bmobIMMessage, BmobException e) {
-                        Author author =new Author(user.getId(),user.getNickname(),user.getAvater().getFileUrl(),true);
-                        Date date=new Date();
-                        date.getTime();
-                        Message message = new Message(user.getId(),author,bmobIMMessage.getContent(),date);
-                        adapter.addToStart(message,true);
-                    }
-                });
-
+                conversationEntrance.sendMessage(msg, Listener);
                 return true;
             }
         });
@@ -127,7 +114,12 @@ public class messageList extends Fragment implements MessageListHandler {
             public void done(List<BmobIMMessage> list, BmobException e) {
                 if (e==null){
                     for(BmobIMMessage message : list) {
-                        BmobIMUserInfo bmobIMUserInfo =message.getBmobIMUserInfo();
+                        BmobIMUserInfo bmobIMUserInfo = new BmobIMUserInfo();
+                        if (message.getFromId().equals(user.getObjectId())){
+                            bmobIMUserInfo=new BmobIMUserInfo(user.getObjectId(),user.getNickname(),user.getAvater().getFileUrl());
+                        }else {
+                            bmobIMUserInfo=(BmobIMUserInfo) getActivity().getIntent().getSerializableExtra("USerInfo");
+                        }
                         Author author = new Author("wxid_"+message.getFromId(),bmobIMUserInfo.getName(),bmobIMUserInfo.getAvatar(),true);
                         Message messages =new Message(message.getFromId(),author,message.getContent());
                         adapter.addToStart(messages,true);
@@ -138,36 +130,94 @@ public class messageList extends Fragment implements MessageListHandler {
         });
     }
 
+
+    /**
+     * 消息发送监听器
+     */
+    public MessageSendListener Listener = new MessageSendListener() {
+        @Override
+        public void done(BmobIMMessage bmobIMMessage, BmobException e) {
+            if (e == null){
+                Author author =new Author(user.getId(),user.getNickname(),user.getAvater().getFileUrl(),true);
+                Date date=new Date();
+                date.getTime();
+                Message message = new Message(user.getId(),author,bmobIMMessage.getContent(),date);
+                adapter.addToStart(message,true);
+                Toast.makeText(getActivity(), bmobIMMessage.getContent(), Toast.LENGTH_SHORT).show();
+            }else {
+                ActivityUtils.showShortToast(getActivity(),e.getMessage());
+            }
+        }
+    };
+
+
+    /**
+     * 消息接收：8.2、单个页面的自定义接收器
+     * @param list
+     */
     @Override
     public void onMessageReceive(List<MessageEvent> list) {
-        for (int i =0 ;i<list.size();i++){
-            BmobIMMessage message=list.get(i).getMessage();
-            BmobIMUserInfo bmobIMUserInfo =message.getBmobIMUserInfo();
-            Author author = new Author(bmobIMUserInfo.getUserId(),bmobIMUserInfo.getName(),bmobIMUserInfo.getAvatar(),true);
-            Message messages =new Message(message.getFromId(),author,message.getContent());
+        Log.d("聊天界面收到消息：", String.valueOf(list.size()));
+        for (int i=0 ;i<list.size();i++){
+            addMessage2Chat(list.get(i));
+        }
+    }
+
+    private void addMessage2Chat(MessageEvent event){
+        BmobIMMessage msg = event.getMessage();
+        if (conversationEntrance != null && event != null && conversationEntrance.getConversationId().equals(event.getConversation().getConversationId())//如果是当前会话消息
+            && !msg.isTransient()){//而且不为暂态消息
+            BmobIMUserInfo bmobIMUserInfo =msg.getBmobIMUserInfo();
+            Author author = new Author("wxid_"+msg.getFromId(),bmobIMUserInfo.getName(),bmobIMUserInfo.getAvatar(),true);
+            Message messages =new Message(msg.getFromId(),author,msg.getContent());
             adapter.addToStart(messages,true);
         }
     }
 
-    /**
-     * 聊天消息接收事件
-     * @param event
-     */
-    public void onEventMainThread(MessageEvent event){
-        BmobIMMessage message=event.getMessage();
-        BmobIMUserInfo bmobIMUserInfo = event.getFromUserInfo();
-        Author author = new Author(bmobIMUserInfo.getUserId(),bmobIMUserInfo.getName(),bmobIMUserInfo.getAvatar(),true);
-        Message messages =new Message(message.getFromId(),author,message.getContent());
-        adapter.addToStart(messages,true);
+    @Override
+    public void onResume() {
+        //添加页面消息监听器
+        BmobIM.getInstance().addMessageListHandler(this);
+        super.onResume();
     }
 
-    /**
-     * 离线消息接受事件
-     * @param event
-     */
-    public void onEventMainThread(OfflineMessageEvent event ){
+    @Override
+    public void onDestroy() {
+        //在销毁当前界面时，注销EventBus
+       // EventBus.getDefault().unregister(this);
+        super.onDestroy();
 
     }
+
+    @Override
+    public void onPause() {
+        BmobIM.getInstance().removeMessageListHandler(this);
+        super.onPause();
+    }
+//
+//    /**
+//     * 聊天消息接收事件
+//     * @param event
+//     */
+//    @Subscribe
+//    public void onEventMainThread(MessageEvent event){
+//        BmobIMMessage message=event.getMessage();
+//        BmobIMUserInfo bmobIMUserInfo = event.getFromUserInfo();
+//        Author author = new Author(bmobIMUserInfo.getUserId(),bmobIMUserInfo.getName(),bmobIMUserInfo.getAvatar(),true);
+//        Message messages =new Message(message.getFromId(),author,message.getContent());
+//        adapter.addToStart(messages,true);
+//    }
+//
+//    /**
+//     * 离线消息接受事件
+//     * @param event
+//     */
+//    @Subscribe
+//    public void onEventMainThread(OfflineMessageEvent event ){
+//
+//    }
+
+
 
 
 }

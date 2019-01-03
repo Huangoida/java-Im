@@ -11,6 +11,7 @@ import com.example.a6175.fangwechat.Utils.ActivityUtils;
 
 public abstract class BaseActivity extends AppCompatActivity {
     private Activity context;
+    private static final int REQUEST_FINE_LOCATION=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

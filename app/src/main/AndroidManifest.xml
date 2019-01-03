@@ -25,6 +25,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
+
         android:name=".ImApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

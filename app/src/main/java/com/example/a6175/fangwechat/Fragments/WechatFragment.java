@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.a6175.fangwechat.Activity.chatMsg;
-import com.example.a6175.fangwechat.Activity.detailInformation;
 import com.example.a6175.fangwechat.R;
 import com.example.a6175.fangwechat.bean.Conversation;
+import com.example.a6175.fangwechat.bean.FriendUser;
 import com.example.a6175.fangwechat.bean.PrivateConversation;
 import com.example.a6175.fangwechat.bean.User;
 import com.example.a6175.fangwechat.db.Author;
@@ -40,11 +41,11 @@ import cn.bmob.newim.bean.BmobIMUserInfo;
 import cn.bmob.newim.event.MessageEvent;
 import cn.bmob.newim.listener.ConversationListener;
 import cn.bmob.newim.listener.MessageListHandler;
-import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.QueryListener;
+
+
+//TODO 切换用户后，不会清除上一个用户会话框
 
 public class WechatFragment extends Fragment implements MessageListHandler {
     private String mTitle;
@@ -54,6 +55,7 @@ public class WechatFragment extends Fragment implements MessageListHandler {
     private List<DefaultDialog>dialogList;
     private DialogsList dialogsList;
     private List<Conversation> lists;
+    List<BmobIMUserInfo> bmobIMUserInfoList;
 
 
     public static WechatFragment getInstance(String mTitle)
@@ -72,10 +74,14 @@ public class WechatFragment extends Fragment implements MessageListHandler {
         imageLoader =new ImageLoader() {
             @Override
             public void loadImage(ImageView imageView, @Nullable String url, @Nullable Object payload) {
-                Picasso.with(getActivity()).load(url).into(imageView);
+                if (url.equals("")){
+                    Picasso.with(getActivity()).load(R.drawable.default_avatar).into(imageView);
+                }else {
+                    Picasso.with(getActivity()).load(url).into(imageView);
+                }
+
             }
         };
-
         dialogsListAdapter =new DialogsListAdapter(R.layout.item_custom_dialog,imageLoader);
         dialogsList.setAdapter(dialogsListAdapter);
         query();
@@ -83,14 +89,14 @@ public class WechatFragment extends Fragment implements MessageListHandler {
             @Override
             public void onDialogClick(IDialog dialog) {
                 String id = dialog.getId();
-                BmobIMUserInfo info = new BmobIMUserInfo(dialog.getId(),dialog.getDialogName(),dialog.getDialogPhoto());
+                final BmobIMUserInfo info = BmobIM.getInstance().getUserInfo(id);
                 //开启私聊会话，设置会话保存在本地会话表中
                 BmobIM.getInstance().startPrivateConversation(info, new ConversationListener() {
                     @Override
                     public void done(BmobIMConversation bmobIMConversation, BmobException e) {
                         if (e == null){
                             Intent intent = new Intent(getActivity(),chatMsg.class);
-                            //intent.putExtra("User_data",friend);
+                            intent.putExtra("USerInfo",info);
                             intent.putExtra("c",bmobIMConversation);
                             startActivity(intent);
                         }
@@ -126,22 +132,30 @@ public class WechatFragment extends Fragment implements MessageListHandler {
 
     @Override
     public void onMessageReceive(List<MessageEvent> list) {
-
+        Log.d("会话界面收到消息：", String.valueOf(list.size()));
+        for (int i=0 ;i<list.size();i++){
+            query();
+        }
     }
 
     /**
      * 查询本地会话
      */
     public void query(){
+
         lists = getConversation();
+        List<BmobIMUserInfo>userInfos =new ArrayList<>();
+
+        for (int i=0;i<lists.size();i++){
+            userInfos.add(BmobIM.getInstance().getUserInfo(lists.get(i).getcId()));
+        }
         dialogList = new ArrayList<>();
-        for (Conversation list:lists){
-            Author author =new Author(list.getConversation().getConversationId(),list.getConversation().getConversationTitle(),
-                    list.getConversation().getConversationIcon(),true);
+        for (int i = 0; i < lists.size(); i++) {
             List<Author>authorList =new ArrayList<>();
+            Author author =new Author(userInfos.get(i).getUserId(),userInfos.get(i).getName(), userInfos.get(i).getAvatar(),true);
             authorList.add(author);
-            Message message =new Message(list.getConversation().getConversationId(),author,list.getLastMessageContent());
-            DefaultDialog defaultDialog=new DefaultDialog(list.getcId(),list.getcName(),list.getConversation().getConversationIcon(),authorList,message,list.getUnReadCount());
+            Message message =new Message(lists.get(i).getConversation().getConversationId(),author,lists.get(i).getLastMessageContent());
+             DefaultDialog defaultDialog=new DefaultDialog(lists.get(i).getcId(),userInfos.get(i).getName(),userInfos.get(i).getAvatar(),authorList,message,lists.get(i).getUnReadCount());
             dialogList.add(defaultDialog);
         }
         dialogsListAdapter.setItems(dialogList);
@@ -164,9 +178,9 @@ public class WechatFragment extends Fragment implements MessageListHandler {
             }
         }
         //添加新朋友会话-获取好友请求表中最新的一条记录
-
         //重新排序
         Collections.sort(conversationList);
         return conversationList;
     }
+
 }

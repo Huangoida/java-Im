@@ -45,14 +45,15 @@ public class detailInformation extends BaseActivity {
                 if (status_code==0){
                     AddFriend();
                 }else {
-                    BmobIMUserInfo info = new BmobIMUserInfo(user.getId(),user.getNickname(),user.getAvater().getFileUrl());
+                    BmobIMUserInfo info = new BmobIMUserInfo(user.getObjectId(),user.getNickname(),user.getAvater().getFileUrl());
                     //开启私聊会话，设置会话保存在本地会话表中
                     conversationEntrance = BmobIM.getInstance().startPrivateConversation(info, new ConversationListener() {
                         @Override
                         public void done(BmobIMConversation bmobIMConversation, BmobException e) {
                             if (e == null){
+                                final BmobIMUserInfo info = new BmobIMUserInfo(user.getObjectId(),user.getNickname(),user.getAvater().getFileUrl());
                                 Intent intent = new Intent(detailInformation.this,chatMsg.class);
-                                intent.putExtra("User_data",user);
+                                intent.putExtra("USerInfo",info);
                                 intent.putExtra("c",bmobIMConversation);
                                 startActivity(intent);
                                 finish(detailInformation.this);

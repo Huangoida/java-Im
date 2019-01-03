@@ -23,6 +23,8 @@ import com.example.a6175.fangwechat.bean.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.newim.BmobIM;
+import cn.bmob.newim.bean.BmobIMUserInfo;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
@@ -98,7 +100,12 @@ public class ContactsFragment extends Fragment {
             UserInfo.add(user.getFriendUser());
         }
         friendUserList = UserInfo;
-
+        List<BmobIMUserInfo> bmobIMUserInfoList=new ArrayList<>();
+        for (int i=0;i<UserInfo.size();i++) {
+            BmobIMUserInfo userInfo =new BmobIMUserInfo(UserInfo.get(i).getObjectId(),UserInfo.get(i).getNickname(),UserInfo.get(i).getAvater().getFileUrl());
+            bmobIMUserInfoList.add(userInfo);
+        }
+        BmobIM.getInstance().updateBatchUserInfo(bmobIMUserInfoList);
         //设置recyclerView
         adapter = new ContactsAdapter(friendUserList);
         recyclerView.setAdapter(adapter);
