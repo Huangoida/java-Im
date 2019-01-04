@@ -50,7 +50,7 @@ public class ContactsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.contactsfragment,null);
+        View v = inflater.inflate(R.layout.fragment_contacts,null);
         recyclerView = v.findViewById(R.id.recycler_view);
         context= getActivity();
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
@@ -63,7 +63,6 @@ public class ContactsFragment extends Fragment {
     public void onStart() {
         Log.d("bmob","1");
         super.onStart();
-
     }
 
     /**

@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 
+
 android {
     compileSdkVersion 28
 
@@ -15,6 +16,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
+
 
     packagingOptions {
         exclude 'META-INF/LICENSE'
@@ -61,6 +63,9 @@ dependencies {
 
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.soundcloud.android:android-crop:1.0.1@aar'
+    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
+
+
 //
 //    compile 'com.github.bumptech.glide:glide:4.1.1'
 //    compile 'me.iwf.photopicker:PhotoPicker:0.9.12@aar'

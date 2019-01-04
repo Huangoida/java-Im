@@ -117,6 +117,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     }
 
+
+    /**
+     * 设置监听对象
+     */
     @Override
     protected void setListener() {
         btn_logout.setOnClickListener(this);
@@ -135,7 +139,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     /**
-     * 在onOptionSItemSelected中添加处理各个按键的点击事件
+     * 在onOptionSItemSelected中添加处理Toolbar上各个按键的点击事件
      * @param item
      * @return
      */
@@ -156,14 +160,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         return  true;
     }
 
+    /**
+     * 请求权限的回调结果处理函数
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case REQUEST_READ_PHONE_STATE:
-                if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    BmobIM.init(this);
-                    BmobIM.registerDefaultMessageHandler(new ImMessageHandler(this));
-                }
+
                 break;
 
             default:
@@ -181,6 +189,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 User.logOut();
                 Toast.makeText(MainActivity.this,"用户注销",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this,FirstUseActivity.class);
+                //清空全部会话，防止出现bug
+                BmobIM.getInstance().clearAllConversation();
                 startActivity(intent);
                 finish();
 
@@ -189,7 +199,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     private void testUser() {
         //User访问本地缓存，看是否有缓存的用户对象
-
         user= User.getCurrentUser();
         if (user != null)
         {
@@ -202,16 +211,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     }else {
                         ActivityUtils.showShortToast(MainActivity.this,"连接失败");
                     }
-
                 }
             });
-
         }else {
-            //缓存用户对象为空时，可打开用户注册界面
+            //缓存用户对象为空时，打开用户注册界面
             Intent intent = new Intent(MainActivity.this,FirstUseActivity.class);
             startActivity(intent);
             finish();
-
         }
     }
 

@@ -1,7 +1,9 @@
 package com.example.a6175.fangwechat.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 
 import com.example.a6175.fangwechat.BaseActivity;
@@ -29,16 +31,25 @@ import cn.bmob.newim.event.MessageEvent;
 import cn.bmob.newim.listener.MessageListHandler;
 import cn.bmob.newim.listener.MessageSendListener;
 import cn.bmob.newim.listener.MessagesQueryListener;
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.QueryListener;
 
 
 public class chatMsg extends BaseActivity implements MessageListHandler {
+
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_msg);
+        toolbar =findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Intent intent =getIntent();
+        String objectId= intent.getStringExtra("ID");
+        queryUser(objectId);
     }
 
     @Override
@@ -79,8 +90,20 @@ public class chatMsg extends BaseActivity implements MessageListHandler {
 
     }
 
-    private void queryMseeage(BmobIMMessage message){
+    /**
+     * 查询聊天用户，渲染view
+     */
+    private void queryUser(String objectID){
+        BmobQuery<User>userBmobQuery =new BmobQuery<>();
+        userBmobQuery.getObject(objectID, new QueryListener<User>() {
+            @Override
+            public void done(User user, BmobException e) {
+                toolbar.setTitle(user.getNickname());
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                getSupportActionBar().setHomeButtonEnabled(true);
 
+            }
+        });
 
     }
 }

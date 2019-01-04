@@ -5,18 +5,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.a6175.fangwechat.Activity.chatMsg;
 import com.example.a6175.fangwechat.R;
 import com.example.a6175.fangwechat.bean.Conversation;
-import com.example.a6175.fangwechat.bean.FriendUser;
 import com.example.a6175.fangwechat.bean.PrivateConversation;
 import com.example.a6175.fangwechat.bean.User;
 import com.example.a6175.fangwechat.db.Author;
@@ -30,7 +27,6 @@ import com.stfalcon.chatkit.dialogs.DialogsListAdapter;
 
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -45,7 +41,7 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 
 
-//TODO 切换用户后，不会清除上一个用户会话框
+//TODO 不会新增会话
 
 public class WechatFragment extends Fragment implements MessageListHandler {
     private String mTitle;
@@ -68,7 +64,7 @@ public class WechatFragment extends Fragment implements MessageListHandler {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.wechatfragment,null);
+        View v = inflater.inflate(R.layout.fragment_wechat,null);
         user = BmobUser.getCurrentUser(User.class);
         dialogsList =v.findViewById(R.id.dialogsList);
         imageLoader =new ImageLoader() {
@@ -96,6 +92,7 @@ public class WechatFragment extends Fragment implements MessageListHandler {
                     public void done(BmobIMConversation bmobIMConversation, BmobException e) {
                         if (e == null){
                             Intent intent = new Intent(getActivity(),chatMsg.class);
+                            intent.putExtra("ID",info.getUserId());
                             intent.putExtra("USerInfo",info);
                             intent.putExtra("c",bmobIMConversation);
                             startActivity(intent);
@@ -135,11 +132,12 @@ public class WechatFragment extends Fragment implements MessageListHandler {
         Log.d("会话界面收到消息：", String.valueOf(list.size()));
         for (int i=0 ;i<list.size();i++){
             query();
+
         }
     }
 
     /**
-     * 查询本地会话
+     * 将会话添加到Chat
      */
     public void query(){
 
@@ -161,6 +159,10 @@ public class WechatFragment extends Fragment implements MessageListHandler {
         dialogsListAdapter.setItems(dialogList);
 
     }
+    /**
+     *获取所有的会话
+     * @return
+     */
 
     private List<Conversation> getConversation(){
         List<Conversation> conversationList = new ArrayList<>();
