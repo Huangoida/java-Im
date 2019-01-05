@@ -16,12 +16,11 @@ public class ContactsAdapter extends BaseQuickAdapter<User,BaseViewHolder> {
     private Context mcontext;
 
     public ContactsAdapter(@Nullable List<User> data) {
-        super(R.layout.contracts_items,data);
+        super(R.layout.item_contracts,data);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, User item) {
-
         helper.setText(R.id.textView,item.getNickname());
         Picasso.with(mContext).load(item.getAvater().getFileUrl()).into((ImageView) helper.getView(R.id.imageView));
     }

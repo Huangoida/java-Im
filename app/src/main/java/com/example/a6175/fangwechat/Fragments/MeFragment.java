@@ -26,13 +26,14 @@ public class MeFragment extends Fragment implements OnClickListener {
     private User user;
     private TextView tv_name;
     private ImageView imageView;
+    private TextView tv_id;
 
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.mefragment,null);
+        v = inflater.inflate(R.layout.fragment_me,null);
         init();
         setOnListener();
         return v;
@@ -52,6 +53,7 @@ public class MeFragment extends Fragment implements OnClickListener {
 
         Picasso.with(getActivity()).load(user.getAvater().getFileUrl()).into(imageView);
         tv_name.setText(user.getNickname());
+        tv_id.setText("微信号:"+user.getId());
     }
 
     //初始化控件
@@ -60,6 +62,7 @@ public class MeFragment extends Fragment implements OnClickListener {
       tv_name = v.findViewById(R.id.tvname);
       tv_name.setText(user.getNickname());
       imageView= v.findViewById(R.id.head) ;
+      tv_id =v.findViewById(R.id.tv_id);
     }
     private void setOnListener()
     {
