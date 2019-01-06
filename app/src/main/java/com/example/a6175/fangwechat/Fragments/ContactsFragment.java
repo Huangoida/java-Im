@@ -1,5 +1,6 @@
 package com.example.a6175.fangwechat.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -30,17 +31,20 @@ import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.bean.BmobIMUserInfo;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.b.V;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 
 public class ContactsFragment extends Fragment {
 
+    private Activity ctx;
     private  String mTitle;
     private User user;
     private RecyclerView recyclerView;
     private Context context ;
     private  ContactsAdapter adapter;
     static List<User>friendUserList;
+    private View layout,layout_head;
 
 
     public static ContactsFragment getInstance(String mTitle)
@@ -53,14 +57,25 @@ public class ContactsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_contacts,null);
-        recyclerView = v.findViewById(R.id.recycler_view);
-        context= getActivity();
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        recyclerView.setLayoutManager(layoutManager);
-        queryFriends();
+        if (layout == null){
+            layout = inflater.inflate(R.layout.fragment_contacts,null);
+            ctx = this.getActivity();
+            recyclerView = layout.findViewById(R.id.recycler_view);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(ctx);
+            recyclerView.setLayoutManager(layoutManager);
+            queryFriends();
 
-        return v;
+        }else{
+            ViewGroup parent = (ViewGroup) layout.getParent();
+            if (parent != null){
+                parent.removeView(layout);
+            }
+        }
+
+
+
+
+        return layout;
     }
 
     @Override
@@ -113,12 +128,12 @@ public class ContactsFragment extends Fragment {
         adapter = new ContactsAdapter(friendUserList);
         recyclerView.setAdapter(adapter);
         //TODO 完成新朋友的设置
-        adapter.setHeaderView(getLayoutInflater().inflate(R.layout.title_newfriend,null));//设置头部
+        adapter.setHeaderView(getLayoutInflater().inflate(R.layout.layout_head_friend,null));//设置头部
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 User friend = friendUserList.get(position);
-                Intent intent = new Intent(context,detailInformation.class);
+                Intent intent = new Intent(ctx,detailInformation.class);
                 intent.putExtra("User_data",friend);
                 intent.putExtra("CODE",1);
                 startActivity(intent);

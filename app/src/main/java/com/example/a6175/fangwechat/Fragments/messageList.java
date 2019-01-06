@@ -42,7 +42,7 @@ import cn.bmob.newim.listener.MessageSendListener;
 import cn.bmob.newim.listener.MessagesQueryListener;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
-import cn.jiguang.imui.chatinput.ChatInputView;
+
 
 
 // TODO 发送图片
