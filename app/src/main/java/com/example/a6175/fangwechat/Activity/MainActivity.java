@@ -31,7 +31,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.newim.BmobIM;
+import cn.bmob.newim.core.ConnectionStatus;
 import cn.bmob.newim.listener.ConnectListener;
+import cn.bmob.newim.listener.ConnectStatusChangeListener;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 
@@ -182,6 +184,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 public void done(String s, BmobException e) {
                     if (e==null){
                         ActivityUtils.showShortToast(MainActivity.this,"连接成功");
+                        BmobIM.getInstance().setOnConnectStatusChangeListener(new ConnectStatusChangeListener() {
+                            @Override
+                            public void onChange(ConnectionStatus connectionStatus) {
+                                ActivityUtils.showShortToast(MainActivity.this,connectionStatus.getMsg());
+                            }
+                        });
                     }else {
                         ActivityUtils.showShortToast(MainActivity.this,"连接失败");
                     }

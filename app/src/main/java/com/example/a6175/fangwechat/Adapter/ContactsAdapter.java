@@ -13,7 +13,6 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class ContactsAdapter extends BaseQuickAdapter<User,BaseViewHolder> {
-    private Context mcontext;
 
     public ContactsAdapter(@Nullable List<User> data) {
         super(R.layout.item_contracts,data);

@@ -42,7 +42,10 @@ import cn.bmob.newim.listener.MessageSendListener;
 import cn.bmob.newim.listener.MessagesQueryListener;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
+import cn.jiguang.imui.chatinput.ChatInputView;
 
+
+// TODO 发送图片
 public class messageList extends Fragment implements MessageListHandler {
 
     private MessageInput messageInput;
@@ -53,6 +56,8 @@ public class messageList extends Fragment implements MessageListHandler {
     private ImageLoader imageLoader;
     private MessagesList messagesList;
     private View view;
+
+
 
 
     @Nullable
@@ -71,6 +76,7 @@ public class messageList extends Fragment implements MessageListHandler {
     private void initControl(){
         messagesList = view.findViewById(R.id.messagesList);
         messageInput = view.findViewById(R.id.input);
+
     }
 
     private void initData(){

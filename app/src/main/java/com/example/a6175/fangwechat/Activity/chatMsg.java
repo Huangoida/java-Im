@@ -35,11 +35,13 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.QueryListener;
+import cn.jiguang.imui.chatinput.ChatInputView;
 
 
 public class chatMsg extends BaseActivity implements MessageListHandler {
 
     private Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +49,13 @@ public class chatMsg extends BaseActivity implements MessageListHandler {
         setContentView(R.layout.activity_chat_msg);
         toolbar =findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         Intent intent =getIntent();
         String objectId= intent.getStringExtra("ID");
         queryUser(objectId);
     }
+
+
 
     @Override
     protected void initControl() {

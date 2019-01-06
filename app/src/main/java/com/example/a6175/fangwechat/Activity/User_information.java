@@ -1,13 +1,8 @@
 package com.example.a6175.fangwechat.Activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v4.content.FileProvider;
-import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -20,13 +15,16 @@ import android.widget.Toast;
 import com.example.a6175.fangwechat.BaseActivity;
 import com.example.a6175.fangwechat.R;
 import com.example.a6175.fangwechat.Utils.ActivityUtils;
-import com.example.a6175.fangwechat.Utils.PhotoUtils;
 import com.example.a6175.fangwechat.bean.User;
-import com.soundcloud.android.crop.Crop;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.tools.PictureFileUtils;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.io.IOException;
+import java.util.List;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
@@ -48,7 +46,6 @@ public class User_information extends BaseActivity implements View.OnClickListen
     private User user;
     private Uri imageUri;
     private Uri outputUri;
-    private PhotoUtils photoUtils;
 
     String path="";
 
@@ -90,7 +87,7 @@ public class User_information extends BaseActivity implements View.OnClickListen
     @Override
     protected void initData() {
         user = BmobUser.getCurrentUser(User.class);
-        photoUtils= new PhotoUtils();
+
     }
 
     @Override
@@ -140,64 +137,22 @@ public class User_information extends BaseActivity implements View.OnClickListen
     //上传图片
     private void UploadAvater()
     {
-        String title = "选择获取图片方式";
-        String[] items = new String[]{"拍照","相册"};
+        PictureSelector.create(User_information.this)
+                .openGallery(PictureMimeType.ofImage())
+                .selectionMode(PictureConfig.SINGLE)//单选
+                .isCamera(true)//是否显示拍照
+                .enableCrop(true)//是否裁剪
+                .compress(true)//是否压缩
+                .previewImage(false)
+                .withAspectRatio(1,1)//裁剪比例
+                .freeStyleCropEnabled(true)//裁剪框可以拖拽
+                .isDragFrame(true)//是否可以拖动裁剪框
+                .showCropFrame(true)//是否显示边框
+                .forResult(PictureConfig.CHOOSE_REQUEST);
 
-        new AlertDialog.Builder(User_information.this)
-                .setTitle(title)
-                .setItems(items, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        switch (which)
-                        {
-                            case 0:
-                                pickImageFromCamera();
-                                break;
-                            case 1:
-                                pickImageFromAlbum();
-                                break;
-                        }
-                    }
-                }).show();
     }
 
-    //调用相机
-    public void pickImageFromCamera()
-    {
-        //创建一个File对象，放在sd卡的关联缓存目录下
-        File outPutImage = new File(getExternalCacheDir(),user.getNickname()+".jpg");
-        try{
-            if (outPutImage.exists())
-            {
-                outPutImage.delete();
-            }
-            outPutImage.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        //如果低于android 7.0，调用fromeFile将File转化成uri对象
-        if (Build.VERSION.SDK_INT>= 24)
-        {
-            imageUri = FileProvider.getUriForFile(User_information.this,"com.example.cameraalbumtest.fileprovider",outPutImage);
-        }else
-        {
-            imageUri = Uri.fromFile(outPutImage);
-        }
-
-        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
-        startActivityForResult(intent,TAKE_PHOTO);
-    }
-
-    //调用相册
-    public void pickImageFromAlbum()
-    {
-        Intent intent = new Intent("android.intent.action.GET_CONTENT");
-        intent.setType("image/*");
-        startActivityForResult(intent,CHOOSE_PHOTO);
-    }
 
 
     //返回回来的值
@@ -205,36 +160,20 @@ public class User_information extends BaseActivity implements View.OnClickListen
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
        if (resultCode == RESULT_OK) {
            switch (requestCode) {
-               case TAKE_PHOTO:
-                   imageUri=photoUtils.getImageContentUri(this,path);
-                   beginCrop();
-                   break;
-               case CHOOSE_PHOTO:
-                   //判断系统版本，调用不同方法
-                    if(Build.VERSION.SDK_INT>= 19){
-                        path=photoUtils.handleImageOnKitKat(this,data);
-                    }else {
-                        path=photoUtils.handleImageBeforeKitKat(this,data);
-                    }
-                    imageUri=photoUtils.getImageContentUri(this,path);
-                    beginCrop();
-                    break;
-               case Crop.REQUEST_CROP:
-                    Bundle bundle = data.getExtras();
-                    if (bundle !=null)
-                    {
-                        String uploadPath=photoUtils.getImagePath(this,Crop.getOutput(data),null);//获得裁剪后的图片绝对路径
-                        final BmobFile file = new BmobFile(new File(uploadPath));
-                        file.upload(new UploadFileListener() {
-                            @Override
-                            public void done(BmobException e) {
-                                if(e==null){
-                                    SaveAvater(file);
-                                }
-                            }
-                        });
-                    }
-                   break;
+               case PictureConfig.CHOOSE_REQUEST:
+                   List<LocalMedia> list = PictureSelector.obtainMultipleResult(data);
+                   String upload =list.get(0).getCutPath();
+                   final BmobFile file = new BmobFile(new File(upload));
+                   file.upload(new UploadFileListener() {
+                       @Override
+                       public void done(BmobException e) {
+                           if (e == null){
+                               SaveAvater(file);
+                           }else {
+
+                           }
+                       }
+                   });
                 default:
                     break;
            }
@@ -248,18 +187,15 @@ public class User_information extends BaseActivity implements View.OnClickListen
             public void done(BmobException e) {
                 if (e==null){
                     Toast.makeText(User_information.this,"上传成功",Toast.LENGTH_SHORT).show();
+                    PictureFileUtils.deleteCacheDirFile(User_information.this);//清理图片缓存
 
                 }else {
-                    Toast.makeText(User_information.this,"上传失败",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(User_information.this,"上传失败"+e.getMessage(),Toast.LENGTH_SHORT).show();
                 }
             }
         });
         Picasso.with(this).load(user.getAvater().getFileUrl()).into(User_avater);
     }
-    //裁剪图片
-    private void beginCrop() {
-        outputUri= photoUtils.getImageContentUri(this,path+"crop.jpg");
-        Crop.of(imageUri,outputUri).asSquare().start(User_information.this);
-    }
+
 
 }

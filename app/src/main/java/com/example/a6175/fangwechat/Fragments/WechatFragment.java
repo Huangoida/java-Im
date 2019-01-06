@@ -99,8 +99,13 @@ public class WechatFragment extends Fragment implements MessageListHandler {
                         }
                     }
                 });
+            }
+        });
 
-
+        dialogsListAdapter.setOnDialogLongClickListener(new DialogsListAdapter.OnDialogLongClickListener() {
+            @Override
+            public void onDialogLongClick(IDialog dialog) {
+                dialogsListAdapter.deleteById(dialog.getId());
             }
         });
         return v;
@@ -131,8 +136,20 @@ public class WechatFragment extends Fragment implements MessageListHandler {
     public void onMessageReceive(List<MessageEvent> list) {
         Log.d("会话界面收到消息：", String.valueOf(list.size()));
         for (int i=0 ;i<list.size();i++){
-            query();
+            BmobIMConversation conversation=list.get(i).getConversation();
+            BmobIMMessage BmobIMmessage =list.get(i).getMessage();
+            BmobIMUserInfo bmobIMUserInfo = list.get(i).getFromUserInfo();
+            List<Author>authorList =new ArrayList<>();
+            Author author =new Author(bmobIMUserInfo.getUserId(),bmobIMUserInfo.getName(), bmobIMUserInfo.getAvatar(),true);
+            authorList.add(author);
+            Message message =new Message(conversation.getConversationId(),author,BmobIMmessage.getContent());
+            DefaultDialog defaultDialog=new DefaultDialog(lists.get(i).getcId(),bmobIMUserInfo.getName(),bmobIMUserInfo.getAvatar(),authorList,message,lists.get(i).getUnReadCount());
+            if (!dialogsListAdapter.updateDialogWithMessage(list.get(i).getConversation().getConversationId(),message)){
 
+                dialogsListAdapter.addItem(defaultDialog);
+            }else {
+                dialogsListAdapter.updateItemById(defaultDialog);
+            }
         }
     }
 

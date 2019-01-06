@@ -54,6 +54,8 @@ public class detailInformation extends BaseActivity {
                                 final BmobIMUserInfo info = new BmobIMUserInfo(user.getObjectId(),user.getNickname(),user.getAvater().getFileUrl());
                                 Intent intent = new Intent(detailInformation.this,chatMsg.class);
                                 intent.putExtra("USerInfo",info);
+                                String objectid =info.getUserId();
+                                intent.putExtra("ID",objectid);
                                 intent.putExtra("c",bmobIMConversation);
                                 startActivity(intent);
                                 finish(detailInformation.this);
