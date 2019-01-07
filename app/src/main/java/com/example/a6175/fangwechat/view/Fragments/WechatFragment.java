@@ -1,4 +1,4 @@
-package com.example.a6175.fangwechat.Fragments;
+package com.example.a6175.fangwechat.view.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.example.a6175.fangwechat.Activity.chatMsg;
+import com.example.a6175.fangwechat.view.Activity.chatMsg;
 import com.example.a6175.fangwechat.R;
 import com.example.a6175.fangwechat.bean.Conversation;
 import com.example.a6175.fangwechat.bean.PrivateConversation;
@@ -29,6 +29,7 @@ import com.stfalcon.chatkit.dialogs.DialogsListAdapter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.bean.BmobIMConversation;
@@ -111,13 +112,6 @@ public class WechatFragment extends Fragment implements MessageListHandler {
         return v;
     }
 
-    public void updateUserInfo(MessageEvent event){
-        final BmobIMConversation conversation=event.getConversation();
-        final BmobIMUserInfo info =event.getFromUserInfo();
-        final BmobIMMessage msg =event.getMessage();
-        String username = info.getName();
-    }
-
 
     @Override
     public void onResume() {
@@ -136,20 +130,16 @@ public class WechatFragment extends Fragment implements MessageListHandler {
     public void onMessageReceive(List<MessageEvent> list) {
         Log.d("会话界面收到消息：", String.valueOf(list.size()));
         for (int i=0 ;i<list.size();i++){
+
             BmobIMConversation conversation=list.get(i).getConversation();
             BmobIMMessage BmobIMmessage =list.get(i).getMessage();
             BmobIMUserInfo bmobIMUserInfo = list.get(i).getFromUserInfo();
-            List<Author>authorList =new ArrayList<>();
-            Author author =new Author(bmobIMUserInfo.getUserId(),bmobIMUserInfo.getName(), bmobIMUserInfo.getAvatar(),true);
-            authorList.add(author);
-            Message message =new Message(conversation.getConversationId(),author,BmobIMmessage.getContent());
-            DefaultDialog defaultDialog=new DefaultDialog(lists.get(i).getcId(),bmobIMUserInfo.getName(),bmobIMUserInfo.getAvatar(),authorList,message,lists.get(i).getUnReadCount());
-            if (!dialogsListAdapter.updateDialogWithMessage(list.get(i).getConversation().getConversationId(),message)){
+            if (BmobIMmessage.getMsgType().equals("txt")){
+                query();
+            }else if (BmobIMmessage.getMsgType().equals("add")){
 
-                dialogsListAdapter.addItem(defaultDialog);
-            }else {
-                dialogsListAdapter.updateItemById(defaultDialog);
             }
+
         }
     }
 
@@ -162,9 +152,15 @@ public class WechatFragment extends Fragment implements MessageListHandler {
         List<BmobIMUserInfo>userInfos =new ArrayList<>();
 
         for (int i=0;i<lists.size();i++){
-            userInfos.add(BmobIM.getInstance().getUserInfo(lists.get(i).getcId()));
+            BmobIMUserInfo userInfo=BmobIM.getInstance().getUserInfo(lists.get(i).getcId());
+            if (userInfo != null){
+                userInfos.add(userInfo);
+            }
         }
         dialogList = new ArrayList<>();
+        if (userInfos.isEmpty()){
+            return;
+        }
         for (int i = 0; i < lists.size(); i++) {
             List<Author>authorList =new ArrayList<>();
             Author author =new Author(userInfos.get(i).getUserId(),userInfos.get(i).getName(), userInfos.get(i).getAvatar(),true);

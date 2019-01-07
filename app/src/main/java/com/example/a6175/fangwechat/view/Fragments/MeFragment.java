@@ -1,4 +1,4 @@
-package com.example.a6175.fangwechat.Fragments;
+package com.example.a6175.fangwechat.view.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.a6175.fangwechat.Activity.User_information;
+import com.example.a6175.fangwechat.view.Activity.User_information;
 import com.example.a6175.fangwechat.R;
 import com.example.a6175.fangwechat.bean.User;
 import com.squareup.picasso.Picasso;

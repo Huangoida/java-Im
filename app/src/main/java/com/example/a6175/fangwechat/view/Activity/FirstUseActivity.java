@@ -1,13 +1,10 @@
-package com.example.a6175.fangwechat.Activity;
+package com.example.a6175.fangwechat.view.Activity;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.a6175.fangwechat.BaseActivity;
+import com.example.a6175.fangwechat.view.BaseActivity;
 import com.example.a6175.fangwechat.R;
 import com.example.a6175.fangwechat.Utils.ActivityUtils;
 

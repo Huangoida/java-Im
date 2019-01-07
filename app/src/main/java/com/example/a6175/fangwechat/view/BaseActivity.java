@@ -1,4 +1,4 @@
-package com.example.a6175.fangwechat;
+package com.example.a6175.fangwechat.view;
 
 import android.app.Activity;
 import android.content.Context;

@@ -38,7 +38,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name=".Activity.MainActivity"
+            android:name=".view.Activity.MainActivity"
             android:label="微信">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,16 +47,15 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Activity.User_regiseter" />
-        <activity android:name=".Activity.UserLoginActivity" />
-        <activity android:name=".Activity.FirstUseActivity" />
-        <activity android:name=".Activity.User_information" />
-        <activity android:name=".Activity.User_more" />
-        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
-        <activity android:name=".Activity.changeNickName" />
-        <activity android:name=".Activity.AddFriend" />
-        <activity android:name=".Activity.detailInformation" />
-        <activity android:name=".Activity.chatMsg"></activity>
+        <activity android:name=".view.Activity.User_regiseter" />
+        <activity android:name=".view.Activity.UserLoginActivity" />
+        <activity android:name=".view.Activity.FirstUseActivity" />
+        <activity android:name=".view.Activity.User_information" />
+        <activity android:name=".view.Activity.User_more" />
+        <activity android:name=".view.Activity.changeNickName" />
+        <activity android:name=".view.Activity.AddFriend" />
+        <activity android:name=".view.Activity.detailInformation" />
+        <activity android:name=".view.Activity.chatMsg"></activity>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

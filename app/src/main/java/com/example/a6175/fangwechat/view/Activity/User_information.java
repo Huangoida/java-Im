@@ -1,4 +1,4 @@
-package com.example.a6175.fangwechat.Activity;
+package com.example.a6175.fangwechat.view.Activity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.a6175.fangwechat.BaseActivity;
+import com.example.a6175.fangwechat.view.BaseActivity;
 import com.example.a6175.fangwechat.R;
 import com.example.a6175.fangwechat.Utils.ActivityUtils;
 import com.example.a6175.fangwechat.bean.User;

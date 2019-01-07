@@ -1,4 +1,4 @@
-package com.example.a6175.fangwechat.Activity;
+package com.example.a6175.fangwechat.view.Activity;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -6,7 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
-import com.example.a6175.fangwechat.BaseActivity;
+import com.example.a6175.fangwechat.view.BaseActivity;
 import com.example.a6175.fangwechat.R;
 import com.example.a6175.fangwechat.Utils.ActivityUtils;
 import com.example.a6175.fangwechat.bean.User;

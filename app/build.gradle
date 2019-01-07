@@ -42,6 +42,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     //工具
     implementation 'org.greenrobot:eventbus:3.1.1'
+    compile 'com.orhanobut:logger:2.2.0'
     //  implementation 'com.google.code.gson:gson:2.8.5'
     //bmob sdk
     implementation 'cn.bmob.android:bmob-im:2.0.9@aar'

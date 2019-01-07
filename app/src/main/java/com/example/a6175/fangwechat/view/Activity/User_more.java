@@ -1,4 +1,4 @@
-package com.example.a6175.fangwechat.Activity;
+package com.example.a6175.fangwechat.view.Activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

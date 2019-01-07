@@ -1,4 +1,4 @@
-package com.example.a6175.fangwechat.Activity;
+package com.example.a6175.fangwechat.view.Activity;
 
 import android.Manifest;
 import android.content.Intent;
@@ -16,11 +16,11 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.a6175.fangwechat.Adapter.FragmentAdapter;
-import com.example.a6175.fangwechat.BaseActivity;
-import com.example.a6175.fangwechat.Fragments.ContactsFragment;
-import com.example.a6175.fangwechat.Fragments.MeFragment;
+import com.example.a6175.fangwechat.view.BaseActivity;
+import com.example.a6175.fangwechat.view.Fragments.ContactsFragment;
+import com.example.a6175.fangwechat.view.Fragments.MeFragment;
 
-import com.example.a6175.fangwechat.Fragments.WechatFragment;
+import com.example.a6175.fangwechat.view.Fragments.WechatFragment;
 import com.example.a6175.fangwechat.R;
 import com.example.a6175.fangwechat.Utils.ActivityUtils;
 import com.example.a6175.fangwechat.bean.User;
@@ -165,11 +165,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 User.logOut();
                 Toast.makeText(MainActivity.this,"用户注销",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this,FirstUseActivity.class);
-                //清空全部会话，防止出现bug
-                BmobIM.getInstance().clearAllConversation();
                 startActivity(intent);
                 finish();
-
         }
     }
 

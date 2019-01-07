@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#ffffff"
-    tools:context=".Activity.User_regiseter">
+    tools:context=".view.Activity.User_regiseter">
 
     <LinearLayout
         android:layout_width="match_parent"

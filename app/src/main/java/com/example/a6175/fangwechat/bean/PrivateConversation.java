@@ -2,10 +2,9 @@ package com.example.a6175.fangwechat.bean;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.example.a6175.fangwechat.Activity.chatMsg;
+import com.example.a6175.fangwechat.view.Activity.chatMsg;
 import com.example.a6175.fangwechat.R;
 
 import java.util.List;

@@ -1,9 +1,6 @@
-package com.example.a6175.fangwechat.Utils;
+package com.example.a6175.fangwechat.bean;
 
 import android.util.Log;
-
-import com.example.a6175.fangwechat.bean.NewFriend;
-import com.example.a6175.fangwechat.bean.User;
 
 import java.util.HashMap;
 import java.util.Map;

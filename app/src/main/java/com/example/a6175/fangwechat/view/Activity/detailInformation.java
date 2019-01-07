@@ -1,4 +1,4 @@
-package com.example.a6175.fangwechat.Activity;
+package com.example.a6175.fangwechat.view.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,17 +8,24 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.a6175.fangwechat.BaseActivity;
+import com.example.a6175.fangwechat.bean.AddFriendMessage;
+import com.example.a6175.fangwechat.view.BaseActivity;
 import com.example.a6175.fangwechat.R;
 import com.example.a6175.fangwechat.Utils.ActivityUtils;
 import com.example.a6175.fangwechat.bean.FriendUser;
 import com.example.a6175.fangwechat.bean.User;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.bean.BmobIMConversation;
+import cn.bmob.newim.bean.BmobIMMessage;
 import cn.bmob.newim.bean.BmobIMUserInfo;
+import cn.bmob.newim.core.BmobIMClient;
 import cn.bmob.newim.listener.ConversationListener;
+import cn.bmob.newim.listener.MessageSendListener;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
@@ -43,7 +50,8 @@ public class detailInformation extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (status_code==0){
-                    AddFriend();
+                    sendAddFriendMessage();
+                    //AddFriend();
                 }else {
                     BmobIMUserInfo info = new BmobIMUserInfo(user.getObjectId(),user.getNickname(),user.getAvater().getFileUrl());
                     //开启私聊会话，设置会话保存在本地会话表中
@@ -124,6 +132,35 @@ public class detailInformation extends BaseActivity {
                     });
                 }   else {
                     ActivityUtils.showShortToast(detailInformation.this,e.getMessage());
+                }
+            }
+        });
+    }
+
+    /**
+     * 发送添加好友的请求
+     */
+    private void sendAddFriendMessage() {
+        //TODO 会话：4.1、创建一个暂态会话入口，发送好友请求
+        BmobIMUserInfo info = new BmobIMUserInfo(user.getObjectId(),user.getNickname(),user.getAvater().getFileUrl());
+        BmobIMConversation conversationEntrance = BmobIM.getInstance().startPrivateConversation(info, true, null);
+        //TODO 消息：5.1、根据会话入口获取消息管理，发送好友请求
+        BmobIMConversation messageManager = BmobIMConversation.obtain(BmobIMClient.getInstance(), conversationEntrance);
+        AddFriendMessage msg = new AddFriendMessage();
+        User currentUser = BmobUser.getCurrentUser(User.class);
+        msg.setContent("很高兴认识你，可以加个好友吗?");//给对方的一个留言信息
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", currentUser.getUsername());//发送者姓名
+        map.put("avatar", currentUser.getAvater());//发送者的头像
+        map.put("uid", currentUser.getObjectId());//发送者的uid
+        msg.setExtraMap(map);
+        messageManager.sendMessage(msg, new MessageSendListener() {
+            @Override
+            public void done(BmobIMMessage msg, BmobException e) {
+                if (e == null) {//发送成功
+                    ActivityUtils.showShortToast(detailInformation.this,"好友请求发送成功，等待验证");
+                } else {//发送失败
+                    ActivityUtils.showShortToast(detailInformation.this,"发送失败:" + e.getMessage());
                 }
             }
         });

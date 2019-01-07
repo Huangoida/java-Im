@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activity.chatMsg">
+    tools:context=".view.Activity.chatMsg">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/messageList_fragment"
-        android:name="com.example.a6175.fangwechat.Fragments.messageList"
+        android:name="com.example.a6175.fangwechat.view.Fragments.messageList"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

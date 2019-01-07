@@ -1,4 +1,4 @@
-package com.example.a6175.fangwechat.Fragments;
+package com.example.a6175.fangwechat.view.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,9 +22,6 @@ import com.stfalcon.chatkit.messages.MessageInput;
 import com.stfalcon.chatkit.messages.MessagesList;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
 import java.util.Date;
 import java.util.List;
 
@@ -34,9 +31,7 @@ import cn.bmob.newim.bean.BmobIMMessage;
 import cn.bmob.newim.bean.BmobIMTextMessage;
 import cn.bmob.newim.bean.BmobIMUserInfo;
 import cn.bmob.newim.core.BmobIMClient;
-import cn.bmob.newim.core.ConnectionStatus;
 import cn.bmob.newim.event.MessageEvent;
-import cn.bmob.newim.event.OfflineMessageEvent;
 import cn.bmob.newim.listener.MessageListHandler;
 import cn.bmob.newim.listener.MessageSendListener;
 import cn.bmob.newim.listener.MessagesQueryListener;
