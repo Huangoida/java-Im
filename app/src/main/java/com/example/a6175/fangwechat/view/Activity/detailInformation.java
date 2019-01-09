@@ -151,7 +151,7 @@ public class detailInformation extends BaseActivity {
         msg.setContent("很高兴认识你，可以加个好友吗?");//给对方的一个留言信息
         Map<String, Object> map = new HashMap<>();
         map.put("name", currentUser.getUsername());//发送者姓名
-        map.put("avatar", currentUser.getAvater());//发送者的头像
+        map.put("avatar", currentUser.getAvater().getFileUrl());//发送者的头像
         map.put("uid", currentUser.getObjectId());//发送者的uid
         msg.setExtraMap(map);
         messageManager.sendMessage(msg, new MessageSendListener() {

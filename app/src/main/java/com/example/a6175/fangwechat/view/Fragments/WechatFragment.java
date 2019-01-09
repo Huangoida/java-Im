@@ -1,6 +1,7 @@
 package com.example.a6175.fangwechat.view.Fragments;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.a6175.fangwechat.bean.AgreeAddFriendMessage;
+import com.example.a6175.fangwechat.bean.NewFriend;
 import com.example.a6175.fangwechat.view.Activity.chatMsg;
 import com.example.a6175.fangwechat.R;
 import com.example.a6175.fangwechat.bean.Conversation;
@@ -26,6 +29,10 @@ import com.stfalcon.chatkit.dialogs.DialogsList;
 import com.stfalcon.chatkit.dialogs.DialogsListAdapter;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.litepal.LitePal;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -40,6 +47,8 @@ import cn.bmob.newim.listener.ConversationListener;
 import cn.bmob.newim.listener.MessageListHandler;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
+
+import static com.example.a6175.fangwechat.Config.STATUS_VERIFY_NONE;
 
 
 //TODO 不会新增会话
@@ -135,9 +144,16 @@ public class WechatFragment extends Fragment implements MessageListHandler {
             BmobIMMessage BmobIMmessage =list.get(i).getMessage();
             BmobIMUserInfo bmobIMUserInfo = list.get(i).getFromUserInfo();
             if (BmobIMmessage.getMsgType().equals("txt")){
-                query();
-            }else if (BmobIMmessage.getMsgType().equals("add")){
+                if (bmobIMUserInfo !=null){
+                    List<Author>authorList =new ArrayList<>();
+                    Author author =new Author(bmobIMUserInfo.getUserId(),bmobIMUserInfo.getName(), bmobIMUserInfo.getAvatar(),true);
+                    authorList.add(author);
+                    Message message =new Message(conversation.getConversationId(),author,BmobIMmessage.getContent());
+                    DefaultDialog defaultDialog=new DefaultDialog(lists.get(i).getcId(),bmobIMUserInfo.getName(),bmobIMUserInfo.getAvatar(),authorList,message,lists.get(i).getUnReadCount());
+                }
 
+            }else if (BmobIMmessage.getMsgType().equals("add")){
+                AgreeAddFriendMessage.processCustiomMessage(BmobIMmessage,bmobIMUserInfo);
             }
 
         }

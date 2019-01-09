@@ -1,6 +1,11 @@
 package com.example.a6175.fangwechat.bean;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.litepal.LitePal;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +20,8 @@ import cn.bmob.newim.listener.MessageSendListener;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
+
+import static com.example.a6175.fangwechat.Config.STATUS_VERIFY_NONE;
 
 /**
  * 同意添加好友请求-仅仅只用于发送同意添加好友的消息
@@ -103,12 +110,22 @@ public class AgreeAddFriendMessage extends BmobIMExtraMessage {
         });
     }
 
-    private void processCustiomMessage(BmobIMMessage msg,BmobIMUserInfo info){
+    public static void processCustiomMessage(BmobIMMessage msg,BmobIMUserInfo info){
         //消息类型
-        String type = msg.getMsgType();
-
-        if (type.equals("add")){ // 接收到的添加好友的请求
-
+        try {
+            String extra = msg.getExtra();
+            JSONObject json =new JSONObject(extra);
+            String uid = json.getString("uid");
+            NewFriend newFriend = new NewFriend();
+            newFriend.setUserId(msg.getToId());
+            newFriend.setUid(json.getString("uid"));
+            newFriend.setName(json.getString("name"));
+            newFriend.setAvatar(info.getAvatar());
+            newFriend.setStatus(STATUS_VERIFY_NONE);
+            newFriend.setMsg(msg.getContent());
+            newFriend.save();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
 

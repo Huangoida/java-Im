@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+
+    <dbname value="litepaldemo" />
+
+    <version value="2" />
+
+
+    <list>
+        <mapping class="com.example.a6175.fangwechat.bean.NewFriend"></mapping>
+    </list>
+</litepal>

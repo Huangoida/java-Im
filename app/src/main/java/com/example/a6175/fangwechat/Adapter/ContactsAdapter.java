@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -26,6 +27,11 @@ public class ContactsAdapter extends BaseQuickAdapter<User,BaseViewHolder> {
         super(R.layout.item_contracts,data);
         Collections.sort(data, new PinyinComparator());
         users=data;
+    }
+
+    @Override
+    public LinearLayout getHeaderLayout() {
+        return super.getHeaderLayout();
     }
 
     @Override

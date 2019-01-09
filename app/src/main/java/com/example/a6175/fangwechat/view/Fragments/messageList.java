@@ -195,30 +195,5 @@ public class messageList extends Fragment implements MessageListHandler {
         BmobIM.getInstance().removeMessageListHandler(this);
         super.onPause();
     }
-//
-//    /**
-//     * 聊天消息接收事件
-//     * @param event
-//     */
-//    @Subscribe
-//    public void onEventMainThread(MessageEvent event){
-//        BmobIMMessage message=event.getMessage();
-//        BmobIMUserInfo bmobIMUserInfo = event.getFromUserInfo();
-//        Author author = new Author(bmobIMUserInfo.getUserId(),bmobIMUserInfo.getName(),bmobIMUserInfo.getAvatar(),true);
-//        Message messages =new Message(message.getFromId(),author,message.getContent());
-//        adapter.addToStart(messages,true);
-//    }
-//
-//    /**
-//     * 离线消息接受事件
-//     * @param event
-//     */
-//    @Subscribe
-//    public void onEventMainThread(OfflineMessageEvent event ){
-//
-//    }
-
-
-
 
 }
