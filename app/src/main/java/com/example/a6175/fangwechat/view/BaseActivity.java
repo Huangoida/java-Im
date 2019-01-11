@@ -73,6 +73,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         ActivityUtils.finish(activity);
     }
 
+    /**
+     * 检查网络状态
+     */
     public boolean isNetWorkAvailable(Context context){
         return ActivityUtils.isNetworkAvailable(context);
     }

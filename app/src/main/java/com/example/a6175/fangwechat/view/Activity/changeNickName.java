@@ -11,6 +11,8 @@ import com.example.a6175.fangwechat.R;
 import com.example.a6175.fangwechat.Utils.ActivityUtils;
 import com.example.a6175.fangwechat.bean.User;
 
+import java.util.Objects;
+
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
@@ -40,7 +42,7 @@ public class changeNickName extends BaseActivity {
 
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.back);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("个人信息");
     }
 
@@ -71,6 +73,8 @@ public class changeNickName extends BaseActivity {
             case R.id.save:
                 changeName();
                 break;
+                default:
+                    break;
 
         }
         return super.onOptionsItemSelected(item);

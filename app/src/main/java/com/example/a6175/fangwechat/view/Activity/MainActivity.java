@@ -11,8 +11,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.a6175.fangwechat.Adapter.FragmentAdapter;
@@ -38,16 +36,23 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback  {
+public class MainActivity extends BaseActivity implements  ActivityCompat.OnRequestPermissionsResultCallback  {
 
-    private BmobUser user;
-    private Button btn_logout;
-    private List<Fragment> mFragments ;
+   public static final  String TAG_EXIT = "tag2exit";
     final private  int REQUEST_READ_PHONE_STATE =1;
     private Toolbar toolbar;
     private ViewPager viewPager;
 
-
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent != null){
+            boolean isExit = intent.getBooleanExtra(TAG_EXIT,false);
+            if (isExit){
+                this.finish();
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,14 +66,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE);
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE);
-        } else {
         }
     }
 
 
     @Override
     protected void initControl() {
-        btn_logout =  findViewById(R.id.btn_logout);
+
         toolbar =  findViewById(R.id.toolbar);
         viewPager = findViewById(R.id.viewpager);
 
@@ -83,11 +87,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     protected void initData() {
-        mFragments=new ArrayList<>();
+        List<Fragment> mFragments = new ArrayList<>();
         mFragments.add(new  WechatFragment());
         mFragments.add(new  ContactsFragment());
         mFragments.add(new MeFragment());
-        FragmentAdapter adapter =new FragmentAdapter(getSupportFragmentManager(),mFragments);
+        FragmentAdapter adapter =new FragmentAdapter(getSupportFragmentManager(), mFragments);
         viewPager.setAdapter(adapter);
         AlphaIndicator alphaIndicator = findViewById(R.id.alphaIndicator);
         alphaIndicator.setViewPager(viewPager);
@@ -99,7 +103,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
      */
     @Override
     protected void setListener() {
-        btn_logout.setOnClickListener(this);
+
     }
 
     /**
@@ -138,41 +142,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     /**
      * 请求权限的回调结果处理函数
-     * @param requestCode
-     * @param permissions
-     * @param grantResults
+
      */
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case REQUEST_READ_PHONE_STATE:
-
                 break;
-
             default:
                 break;
         }
     }
 
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId())
-        {
-            //用户注销按钮
-            case R.id.btn_logout:
-                User.logOut();
-                Toast.makeText(MainActivity.this,"用户注销",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this,FirstUseActivity.class);
-                startActivity(intent);
-                finish();
-        }
-    }
 
     private void testUser() {
         //User访问本地缓存，看是否有缓存的用户对象
-        user= User.getCurrentUser();
+        BmobUser user = User.getCurrentUser();
         if (user != null)
         {
             //允许用户使用应用

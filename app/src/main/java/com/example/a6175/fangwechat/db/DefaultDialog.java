@@ -1,10 +1,7 @@
 package com.example.a6175.fangwechat.db;
 
 import com.stfalcon.chatkit.commons.models.IDialog;
-import com.stfalcon.chatkit.commons.models.IMessage;
-import com.stfalcon.chatkit.commons.models.IUser;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DefaultDialog implements IDialog<Message> {

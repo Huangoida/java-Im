@@ -7,7 +7,6 @@ import com.example.a6175.fangwechat.bean.User;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,11 +34,12 @@ public class ImMessageHandler extends BmobIMMessageHandler {
     @Override
     public void onMessageReceive(MessageEvent messageEvent) {
         excuteMessage(messageEvent);
-
         //当接收到服务器发来的消息时，此方法被调用。
-
     }
 
+    /**
+     * 每次调用connect方法时会查询一次离线消息，如果有，此方法会被调用
+     */
     @Override
     public void onOfflineReceive(OfflineMessageEvent offlineMessageEvent) {
         Map<String,List<MessageEvent>> map = offlineMessageEvent.getEventMap();
@@ -52,9 +52,12 @@ public class ImMessageHandler extends BmobIMMessageHandler {
             }
 
         }
-        //每次调用connect方法时会查询一次离线消息，如果有，此方法会被调用
+
     }
 
+    /**
+     *发送消息到注册消息处
+     */
     private void excuteMessage(final  MessageEvent event){
         user =BmobUser.getCurrentUser(User.class);
         BmobIMMessage msg =event.getMessage();

@@ -1,9 +1,9 @@
 package com.example.a6175.fangwechat.view.Fragments;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.app.Fragment;
+
+
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +40,9 @@ import cn.bmob.v3.exception.BmobException;
 
 
 
-// TODO 发送图片
+/**
+ * @author a6175
+ */
 public class messageList extends Fragment implements MessageListHandler {
 
     private MessageInput messageInput;
@@ -51,13 +53,9 @@ public class messageList extends Fragment implements MessageListHandler {
     private ImageLoader imageLoader;
     private MessagesList messagesList;
     private View view;
-
-
-
-
-    @Nullable
+    
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView( LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_messagelist,container,false);
         initControl();
         initData();
@@ -68,22 +66,24 @@ public class messageList extends Fragment implements MessageListHandler {
         return view;
     }
 
+    /**
+     * 初始化控件
+     */
     private void initControl(){
         messagesList = view.findViewById(R.id.messagesList);
         messageInput = view.findViewById(R.id.input);
-
     }
 
+    /**
+     * 初始化数据
+     */
     private void initData(){
         //注册EventBus
-       // EventBus.getDefault().register(this);
         user = BmobUser.getCurrentUser(User.class);
-        //friend =(User)getIntent().getSerializableExtra("User_data");
-        //创建新的对话实例，obtain方法才是真正创建一个管理消息发送的会话
         conversationEntrance = BmobIMConversation.obtain(BmobIMClient.getInstance(),((BmobIMConversation)getActivity().getIntent().getSerializableExtra("c")));
         imageLoader =new ImageLoader() {
             @Override
-            public void loadImage(ImageView imageView, @Nullable String url, @Nullable Object payload) {
+            public void loadImage(ImageView imageView,  String url,  Object payload) {
                 Picasso.with(getActivity()).load(url).into(imageView);
             }
         };
@@ -102,7 +102,7 @@ public class messageList extends Fragment implements MessageListHandler {
             public boolean onSubmit(CharSequence input) {
                 final BmobIMTextMessage msg = new BmobIMTextMessage();
                 msg.setContent(input.toString());
-                conversationEntrance.sendMessage(msg, Listener);
+                conversationEntrance.sendMessage(msg, listener);
                 return true;
             }
         });
@@ -135,7 +135,7 @@ public class messageList extends Fragment implements MessageListHandler {
     /**
      * 消息发送监听器
      */
-    public MessageSendListener Listener = new MessageSendListener() {
+    public MessageSendListener listener = new MessageSendListener() {
         @Override
         public void done(BmobIMMessage bmobIMMessage, BmobException e) {
             if (e == null){
@@ -153,8 +153,7 @@ public class messageList extends Fragment implements MessageListHandler {
 
 
     /**
-     * 消息接收：8.2、单个页面的自定义接收器
-     * @param list
+     * 单个页面的自定义接收器
      */
     @Override
     public void onMessageReceive(List<MessageEvent> list) {
@@ -166,12 +165,14 @@ public class messageList extends Fragment implements MessageListHandler {
 
     private void addMessage2Chat(MessageEvent event){
         BmobIMMessage msg = event.getMessage();
-        if (conversationEntrance != null && event != null && conversationEntrance.getConversationId().equals(event.getConversation().getConversationId())//如果是当前会话消息
+        //如果是当前会话消息
+        if (conversationEntrance != null && event != null && conversationEntrance.getConversationId().equals(event.getConversation().getConversationId())
             && !msg.isTransient()){//而且不为暂态消息
             BmobIMUserInfo bmobIMUserInfo =msg.getBmobIMUserInfo();
             Author author = new Author("wxid_"+msg.getFromId(),bmobIMUserInfo.getName(),bmobIMUserInfo.getAvatar(),true);
             Message messages =new Message(msg.getFromId(),author,msg.getContent());
             adapter.addToStart(messages,true);
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -182,13 +183,6 @@ public class messageList extends Fragment implements MessageListHandler {
         super.onResume();
     }
 
-    @Override
-    public void onDestroy() {
-        //在销毁当前界面时，注销EventBus
-       // EventBus.getDefault().unregister(this);
-        super.onDestroy();
-
-    }
 
     @Override
     public void onPause() {

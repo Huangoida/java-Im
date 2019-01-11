@@ -53,7 +53,8 @@ public class PrivateConversation extends AbstractConversation {
     public Object getAvatar() {
         if (cType == BmobIMConversationType.PRIVATE){
             String avatar =  conversation.getConversationIcon();
-            if (TextUtils.isEmpty(avatar)){//头像为空，使用默认头像
+            //头像为空，使用默认头像
+            if (TextUtils.isEmpty(avatar)){
                 return R.drawable.default_avatar;
             }else{
                 return avatar;
@@ -109,8 +110,6 @@ public class PrivateConversation extends AbstractConversation {
 
     @Override
     public void onLongClick(Context context) {
-        //以下两种方式均可以删除会话
-//        BmobIM.getInstance().deleteConversation(conversation.getConversationId());
         BmobIM.getInstance().deleteConversation(conversation);
     }
 

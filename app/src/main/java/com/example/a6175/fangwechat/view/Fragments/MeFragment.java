@@ -12,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.a6175.fangwechat.view.Activity.Setting;
 import com.example.a6175.fangwechat.view.Activity.User_information;
 import com.example.a6175.fangwechat.R;
 import com.example.a6175.fangwechat.bean.User;
@@ -27,6 +28,7 @@ public class MeFragment extends Fragment implements OnClickListener {
     private TextView tv_name;
     private ImageView imageView;
     private TextView tv_id;
+
 
 
 
@@ -63,10 +65,12 @@ public class MeFragment extends Fragment implements OnClickListener {
       tv_name.setText(user.getNickname());
       imageView= v.findViewById(R.id.head) ;
       tv_id =v.findViewById(R.id.tv_id);
+
     }
     private void setOnListener()
     {
         v.findViewById(R.id.view_user).setOnClickListener(this);
+        v.findViewById(R.id.setting).setOnClickListener(this);
     }
 
     @Override
@@ -77,6 +81,11 @@ public class MeFragment extends Fragment implements OnClickListener {
                 Intent intent = new Intent(getActivity(),User_information.class);
                 startActivity(intent);
                 break;
+            case R.id.setting:
+                Intent intent1 = new Intent(getActivity(),Setting.class);
+                startActivity(intent1);
+                default:
+                    break;
         }
     }
 }

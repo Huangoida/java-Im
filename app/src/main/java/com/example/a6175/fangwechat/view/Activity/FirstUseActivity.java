@@ -40,8 +40,8 @@ public class FirstUseActivity extends BaseActivity  {
 
     @Override
     protected void initControl() {
-        btn_login =  findViewById(R.id.btn_login);
-        btn_registere = findViewById(R.id.btn_registerer);
+        btn_login =  findViewById(R.id.btnLogin);
+        btn_registere = findViewById(R.id.btnRegister);
     }
 
     @Override

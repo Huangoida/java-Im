@@ -26,12 +26,6 @@
 
 
 
-    <Button
-        android:id="@+id/btn_logout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="注销"
-        />
     <com.lzy.widget.AlphaIndicator
         android:id="@+id/alphaIndicator"
         android:layout_width="match_parent"

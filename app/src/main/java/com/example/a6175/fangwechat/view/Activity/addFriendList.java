@@ -1,12 +1,12 @@
 package com.example.a6175.fangwechat.view.Activity;
 
 
-import android.content.Context;
+
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
+
 
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -29,16 +29,8 @@ import cn.bmob.v3.BmobUser;
 
 public class addFriendList extends BaseActivity {
 
-    private static Context context;
     private RecyclerView recyclerView;
     private NewFriendAdapter newFriendAdapter;
-
-    public static Context getContext(){
-        if (context == null){
-            context = addFriendList.context;
-        }
-        return context;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +63,10 @@ public class addFriendList extends BaseActivity {
 
     @Override
     protected void setListener() {
+        //设置好友界面的监听者
     newFriendAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
         @Override
-        public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+        public void onItemChildClick(final BaseQuickAdapter adapter, View view, final int position) {
             List<NewFriend> newFriendList = adapter.getData();
             final NewFriend newFriend = newFriendList.get(position);
             AgreeAddFriendMessage.snedAgreeAddFriendMEssage(newFriend, new BaseListener() {
@@ -81,6 +74,7 @@ public class addFriendList extends BaseActivity {
                 public void Success() {
                     ActivityUtils.showShortToast(addFriendList.this,"添加成功");
                     LitePal.delete(NewFriend.class,newFriend.getId());
+                    adapter.remove(position);
                 }
 
                 @Override

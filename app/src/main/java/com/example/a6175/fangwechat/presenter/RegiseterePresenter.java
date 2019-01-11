@@ -18,11 +18,11 @@ public class RegiseterePresenter implements UserPresenter {
     }
 
     public void Regiseter(){
-        String Nickname = RegisetereView.getNickName();
-        String PhoneName = RegisetereView.getMobilePhone();
-        String UserName =RegisetereView.getUserName();
-        String PassWord = RegisetereView.getPassword();
-        userModel.regiseter(Nickname, PhoneName, UserName, PassWord, new OnRegisetereListener() {
+        String nickname = RegisetereView.getNickName();
+        String phonename = RegisetereView.getMobilePhone();
+        String username =RegisetereView.getUserName();
+        String password = RegisetereView.getPassword();
+        userModel.regiseter(nickname, phonename, username, password, new OnRegisetereListener() {
             @Override
             public void RegisetereSuccess() {
                 RegisetereView.finishRegister();

@@ -2,9 +2,6 @@ package com.example.a6175.fangwechat.Utils;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,7 +12,6 @@ import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.a6175.fangwechat.R;
 
 
 public class ActivityUtils {
@@ -34,6 +30,8 @@ public class ActivityUtils {
     public static void finish(Activity activity) {
         activity.finish();
     }
+
+
 
     /**
      * 判断是否有网络

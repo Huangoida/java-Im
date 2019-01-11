@@ -1,8 +1,7 @@
 package com.example.a6175.fangwechat.Adapter;
 
-import android.content.Context;
+
 import android.support.annotation.Nullable;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -14,8 +13,6 @@ import com.example.a6175.fangwechat.Utils.PinyinComparator;
 import com.example.a6175.fangwechat.bean.User;
 import com.squareup.picasso.Picasso;
 
-
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 

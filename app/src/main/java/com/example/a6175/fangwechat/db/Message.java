@@ -1,10 +1,8 @@
 package com.example.a6175.fangwechat.db;
 
-import android.speech.tts.Voice;
-import android.support.annotation.Nullable;
+
 
 import com.stfalcon.chatkit.commons.models.IMessage;
-import com.stfalcon.chatkit.commons.models.IUser;
 import com.stfalcon.chatkit.commons.models.MessageContentType;
 
 import java.util.Date;

@@ -41,7 +41,6 @@ public class detailInformation extends BaseActivity {
             public void onClick(View v) {
                 if (statusCode ==0){
                    AgreeAddFriendMessage.sendAddFriendMessage(user);
-                    //addfriend();
                 }else {
                     BmobIMUserInfo info = new BmobIMUserInfo(user.getObjectId(),user.getNickname(),user.getAvater().getFileUrl());
                     //开启私聊会话，设置会话保存在本地会话表中

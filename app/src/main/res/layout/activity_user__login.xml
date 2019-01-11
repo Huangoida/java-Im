@@ -32,7 +32,6 @@
                 android:text="国家/地区"
                 android:textColor="#353535"
                 android:textSize="16sp" />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -42,7 +41,6 @@
                 android:text="中国(+86)"
                 android:textColor="#45c01a"
                 android:textSize="16sp" />
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
@@ -97,7 +95,6 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tv_password"
                 android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@id/et_password"
@@ -119,8 +116,9 @@
             android:textColor="@android:color/white"
             android:textSize="18sp" />
 
+
+
         <TextView
-            android:id="@+id/tv_wenti"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
@@ -130,6 +128,8 @@
             android:textSize="14sp" />
     </LinearLayout>
 
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
@@ -138,7 +138,6 @@
             android:layout_margin="33dp"
             android:padding="8dp"
             android:background="#F0F0F0"
-            android:id="@+id/btn_qtlogin"
             android:layout_width="80dp"
             android:layout_height="33dp"
             android:layout_alignParentBottom="true"

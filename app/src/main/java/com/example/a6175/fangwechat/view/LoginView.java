@@ -1,5 +1,8 @@
 package com.example.a6175.fangwechat.view;
 
+/**
+ * @author a6175
+ */
 public interface LoginView {
 
     String getUSerName();

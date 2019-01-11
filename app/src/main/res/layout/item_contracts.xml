@@ -15,7 +15,6 @@
         android:paddingRight="5.0dip" />
 
     <LinearLayout
-        android:id="@+id/contactitem_layout"
         style="@style/MMListItem"
         android:layout_height="65.0dip"
         android:background="@color/white"

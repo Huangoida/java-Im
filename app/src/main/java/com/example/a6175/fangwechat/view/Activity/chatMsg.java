@@ -37,11 +37,8 @@ public class chatMsg extends BaseActivity implements MessageListHandler {
         queryUser(objectId);
     }
 
-
-
     @Override
     protected void initControl() {
-
     }
 
     @Override
@@ -57,7 +54,6 @@ public class chatMsg extends BaseActivity implements MessageListHandler {
 
     @Override
     protected void setListener() {
-
     }
 
     @Override

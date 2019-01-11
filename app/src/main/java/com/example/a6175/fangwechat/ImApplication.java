@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.a6175.fangwechat.bean.NewFriend;
 import com.orhanobut.logger.Logger;
 
 import org.litepal.LitePal;
@@ -52,7 +51,6 @@ public class ImApplication extends Application {
      * 获取当前进程名
      * @return
      */
-
     public static String getMyProcessName(){
         try {
             File file = new File("/proc/" + android.os.Process.myPid() + "/" + "cmdline");

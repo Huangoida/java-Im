@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.example.a6175.fangwechat.Utils.ActivityUtils;
 import com.example.a6175.fangwechat.view.Activity.addFriendList;
 import com.example.a6175.fangwechat.view.Activity.detailInformation;
 import com.example.a6175.fangwechat.Adapter.ContactsAdapter;
@@ -73,10 +72,10 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
         return layout;
     }
 
+
     @Override
-    public void onStart() {
-        Log.d("bmob","1");
-        super.onStart();
+    public void onResume() {
+        super.onResume();
     }
 
     public void setLisnener(){
@@ -129,9 +128,9 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
         adapter = new ContactsAdapter(friendUserList);
         adapter.setHeaderViewAsFlow(true);
         recyclerView.setAdapter(adapter);
-
+        //设置头部
         //TODO 完成新朋友的设置
-        adapter.setHeaderView(layoutHead);//设置头部
+        adapter.setHeaderView(layoutHead);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {

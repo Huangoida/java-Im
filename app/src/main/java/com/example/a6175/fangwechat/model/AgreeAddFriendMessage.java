@@ -3,12 +3,10 @@ package com.example.a6175.fangwechat.model;
 import android.util.Log;
 
 import com.example.a6175.fangwechat.Listener.BaseListener;
-import com.example.a6175.fangwechat.Utils.ActivityUtils;
-import com.example.a6175.fangwechat.bean.AddFriendMessage;
+import com.example.a6175.fangwechat.Utils.AddFriendMessage;
 import com.example.a6175.fangwechat.bean.FriendUser;
 import com.example.a6175.fangwechat.bean.NewFriend;
 import com.example.a6175.fangwechat.bean.User;
-import com.example.a6175.fangwechat.view.Activity.addFriendList;
 import com.orhanobut.logger.Logger;
 
 import org.json.JSONException;
@@ -125,7 +123,6 @@ public class AgreeAddFriendMessage extends BmobIMExtraMessage {
                     });
                 }else {
                     Log.d("addFriend",e.getMessage());
-                    ActivityUtils.showShortToast(addFriendList.getContext(),e.getMessage());
                     listener.Failure(e.getMessage());
                 }
             }
@@ -143,7 +140,8 @@ public class AgreeAddFriendMessage extends BmobIMExtraMessage {
                 if (e==null){
                     friendUser.setFriendUser(UserNow);
                     friendUser.setUser(user);
-                    friendUser.save(new SaveListener<String>() {//双向存储
+                    //双向存储
+                    friendUser.save(new SaveListener<String>() {
                         @Override
                         public void done(String s, BmobException e) {
                             if (e==null){

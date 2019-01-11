@@ -109,7 +109,7 @@ public class User_information extends BaseActivity implements View.OnClickListen
                 ActivityUtils.startActivity(User_information.this,changeNickName.class);
                 break;
             case R.id.User_more:
-                ActivityUtils.startActivity(User_information.this,User_more.class);
+                ActivityUtils.startActivity(User_information.this,userMore.class);
                 break;
 
         }

@@ -5,7 +5,10 @@ import android.os.Bundle;
 
 import com.example.a6175.fangwechat.R;
 
-public class User_more extends AppCompatActivity {
+/**
+ * @author 黄逸东
+ */
+public class userMore extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
