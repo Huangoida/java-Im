@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import com.example.a6175.fangwechat.R;
 
-import org.apache.http.message.BasicNameValuePair;
 
 public class ActivityUtils {
     public static void showLongToast(Context context, String pMsg) {
@@ -83,7 +82,7 @@ public class ActivityUtils {
      * @param activity 当前活动
      * @param cls  要跳跃的活动
      */
-    public static void start_Activity(Activity activity, Class<?> cls) {
+    public static void startActivity(Activity activity, Class<?> cls) {
         Intent intent = new Intent();
         intent.setClass(activity, cls);
         activity.startActivity(intent);

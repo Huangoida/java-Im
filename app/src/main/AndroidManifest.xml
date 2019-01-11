@@ -25,7 +25,6 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
-
         android:name=".ImApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -36,7 +35,6 @@
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustResize"
         tools:ignore="GoogleAppIndexingWarning">
-
         <activity
             android:name=".view.Activity.MainActivity"
             android:label="微信">
@@ -46,7 +44,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".view.Activity.User_regiseter" />
         <activity android:name=".view.Activity.UserLoginActivity" />
         <activity android:name=".view.Activity.FirstUseActivity" />
@@ -55,7 +52,7 @@
         <activity android:name=".view.Activity.changeNickName" />
         <activity android:name=".view.Activity.AddFriend" />
         <activity android:name=".view.Activity.detailInformation" />
-        <activity android:name=".view.Activity.chatMsg"></activity>
+        <activity android:name=".view.Activity.chatMsg" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -85,10 +82,16 @@
         <service android:name="cn.bmob.newim.core.service.ReConnectService" />
         <service android:name="cn.bmob.newim.core.service.HeartBeatService" />
 
-        <!--设置appkey -->
+        <!-- 设置appkey -->
         <meta-data
             android:name="Bmob_APP_KEY"
             android:value="d7ff90df3bc6230e86269a4a19921697" />
+
+        <activity
+            android:name=".view.Activity.AddFriendList"
+            android:label="@string/title_activity_add_friend_list"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".view.Activity.addFriendList"></activity>
     </application>
 
 </manifest>

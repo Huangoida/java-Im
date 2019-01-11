@@ -26,14 +26,14 @@ public class FirstUseActivity extends BaseActivity  {
         btn_registere.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityUtils.start_Activity(FirstUseActivity.this,User_regiseter.class);
+                ActivityUtils.startActivity(FirstUseActivity.this,User_regiseter.class);
             }
         });
         //登录的按钮
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityUtils.start_Activity(FirstUseActivity.this,UserLoginActivity.class);
+                ActivityUtils.startActivity(FirstUseActivity.this,UserLoginActivity.class);
             }
         });
     }

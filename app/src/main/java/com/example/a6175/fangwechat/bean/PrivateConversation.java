@@ -22,7 +22,7 @@ import cn.bmob.newim.bean.BmobIMMessageType;
  * Created by Administrator on 2016/5/25.
  */
 
-public class PrivateConversation extends Conversation {
+public class PrivateConversation extends AbstractConversation {
 
 
 
@@ -34,7 +34,7 @@ public class PrivateConversation extends Conversation {
         cId = conversation.getConversationId();
         if (cType == BmobIMConversationType.PRIVATE){
             cName=conversation.getConversationTitle();
-            if (TextUtils.isEmpty(cName)) cName = cId;
+            if (TextUtils.isEmpty(cName)) {cName = cId;}
         }else{
             cName="未知会话";
         }
@@ -67,7 +67,7 @@ public class PrivateConversation extends Conversation {
     public String getLastMessageContent() {
         if(lastMsg!=null){
             String content =lastMsg.getContent();
-            if(lastMsg.getMsgType().equals(BmobIMMessageType.TEXT.getType()) || lastMsg.getMsgType().equals("agree")){
+            if(lastMsg.getMsgType().equals(BmobIMMessageType.TEXT.getType()) || "agree".equals(lastMsg.getMsgType())){
                 return content;
             }else if(lastMsg.getMsgType().equals(BmobIMMessageType.IMAGE.getType())){
                 return "[图片]";
@@ -77,7 +77,7 @@ public class PrivateConversation extends Conversation {
                 return"[位置]";
             }else if(lastMsg.getMsgType().equals(BmobIMMessageType.VIDEO.getType())){
                 return "[视频]";
-            }else{//开发者自定义的消息类型，需要自行处理
+            }else{
                 return "[未知]";
             }
         }else{//防止消息错乱

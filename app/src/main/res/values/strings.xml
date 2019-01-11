@@ -59,6 +59,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:singleLine">true</item>
     </style>
+
     <style name="MMListItem">
         <item name="android:gravity">center_vertical</item>
         <item name="android:orientation">horizontal</item>
@@ -67,6 +68,7 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
     <style name="MMListCatalog">
         <item name="android:textSize">14.0dip</item>
         <item name="android:textStyle">bold</item>
@@ -81,6 +83,7 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <string name="title_activity_add_friend_list">AddFriendList</string>
 
 
 </resources>

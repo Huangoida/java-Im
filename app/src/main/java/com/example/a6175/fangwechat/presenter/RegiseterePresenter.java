@@ -1,8 +1,7 @@
 package com.example.a6175.fangwechat.presenter;
 
-import com.example.a6175.fangwechat.model.OnRegisetereListener;
+import com.example.a6175.fangwechat.Listener.OnRegisetereListener;
 import com.example.a6175.fangwechat.model.UserModel;
-import com.example.a6175.fangwechat.view.LoginView;
 import com.example.a6175.fangwechat.view.RegistereView;
 
 public class RegiseterePresenter implements UserPresenter {

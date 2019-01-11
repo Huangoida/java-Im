@@ -13,10 +13,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.a6175.fangwechat.Utils.ActivityUtils;
+import com.example.a6175.fangwechat.view.Activity.addFriendList;
 import com.example.a6175.fangwechat.view.Activity.detailInformation;
 import com.example.a6175.fangwechat.Adapter.ContactsAdapter;
 import com.example.a6175.fangwechat.R;
@@ -42,7 +42,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
     private Context context ;
     private  ContactsAdapter adapter;
     static List<User>friendUserList;
-    private View layout,layout_head;
+    private View layout, layoutHead;
 
 
     public static ContactsFragment getInstance(String mTitle)
@@ -58,7 +58,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
         if (layout == null){
             layout = inflater.inflate(R.layout.fragment_contacts,null);
             ctx = this.getActivity();
-            layout_head = ctx.getLayoutInflater().inflate(R.layout.layout_head_friend,null);
+            layoutHead = ctx.getLayoutInflater().inflate(R.layout.layout_head_friend,null);
             setLisnener();
             recyclerView = layout.findViewById(R.id.recycler_view);
             LinearLayoutManager layoutManager = new LinearLayoutManager(ctx);
@@ -80,9 +80,9 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
     }
 
     public void setLisnener(){
-      layout_head.findViewById(R.id.layout_addfriend).setOnClickListener(this);
-      layout_head.findViewById(R.id.layout_group).setOnClickListener(this);
-      layout_head.findViewById(R.id.layout_public).setOnClickListener(this);
+      layoutHead.findViewById(R.id.layout_addfriend).setOnClickListener(this);
+      layoutHead.findViewById(R.id.layout_group).setOnClickListener(this);
+      layoutHead.findViewById(R.id.layout_public).setOnClickListener(this);
     }
 
     /**
@@ -92,15 +92,15 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
 
         BmobQuery<FriendUser> query = new BmobQuery<>();
         user = BmobUser.getCurrentUser(User.class);
-
-        query.addWhereEqualTo("user",user); //添加查询条件
+        //添加查询条件
+        query.addWhereEqualTo("user",user);
        // query.include("user");  //关联查询
         query.include("friendUser");
         query.findObjects(new FindListener<FriendUser>() {
             @Override
             public void done(List<FriendUser> list, BmobException e) {
                 if (e == null){
-                    GetList(list);
+                    getList(list);
                 }else {
                     Log.d("bmob","失败"+e.getMessage()+","+e.getErrorCode());
                 }
@@ -112,16 +112,16 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
      * 获得联系人列表
      * @param list
      */
-    private void GetList(List<FriendUser> list){
+    private void getList(List<FriendUser> list){
         //将list中friend提取出来
-        List<User>UserInfo = new ArrayList<>();
+        List<User> userinfo = new ArrayList<>();
         for (FriendUser user :list) {
-            UserInfo.add(user.getFriendUser());
+             userinfo.add(user.getFriendUser());
         }
-        friendUserList = UserInfo;
+        friendUserList =  userinfo;
         List<BmobIMUserInfo> bmobIMUserInfoList=new ArrayList<>();
-        for (int i=0;i<UserInfo.size();i++) {
-            BmobIMUserInfo userInfo =new BmobIMUserInfo(UserInfo.get(i).getObjectId(),UserInfo.get(i).getNickname(),UserInfo.get(i).getAvater().getFileUrl());
+        for (int i=0;i< userinfo.size();i++) {
+            BmobIMUserInfo userInfo =new BmobIMUserInfo( userinfo.get(i).getObjectId(), userinfo.get(i).getNickname(), userinfo.get(i).getAvater().getFileUrl());
             bmobIMUserInfoList.add(userInfo);
         }
         BmobIM.getInstance().updateBatchUserInfo(bmobIMUserInfoList);
@@ -131,7 +131,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
         recyclerView.setAdapter(adapter);
 
         //TODO 完成新朋友的设置
-        adapter.setHeaderView(layout_head);//设置头部
+        adapter.setHeaderView(layoutHead);//设置头部
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -148,10 +148,13 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.layout_addfriend:
-                ActivityUtils.showShortToast(getContext(),"添加朋友");
+                Intent intent =new Intent(getActivity(),addFriendList.class);
+                startActivity(intent);
                 break;
             case R.id.layout_group:
                 break;
+            default:
+                    break;
         }
     }
 }

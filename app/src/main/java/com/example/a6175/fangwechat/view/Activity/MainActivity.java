@@ -124,7 +124,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         switch (item.getItemId())
         {
             case R.id.menu_addfriend:
-                ActivityUtils.start_Activity(MainActivity.this,AddFriend.class);
+                ActivityUtils.startActivity(MainActivity.this,AddFriend.class);
                 break;
             case R.id.menu_saoyisao:
                 Toast.makeText(this,"扫一扫",Toast.LENGTH_SHORT).show();

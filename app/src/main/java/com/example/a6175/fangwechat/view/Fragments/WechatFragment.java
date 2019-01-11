@@ -1,7 +1,6 @@
 package com.example.a6175.fangwechat.view.Fragments;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,11 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.example.a6175.fangwechat.bean.AgreeAddFriendMessage;
-import com.example.a6175.fangwechat.bean.NewFriend;
+import com.example.a6175.fangwechat.model.AgreeAddFriendMessage;
 import com.example.a6175.fangwechat.view.Activity.chatMsg;
 import com.example.a6175.fangwechat.R;
-import com.example.a6175.fangwechat.bean.Conversation;
+import com.example.a6175.fangwechat.bean.AbstractConversation;
 import com.example.a6175.fangwechat.bean.PrivateConversation;
 import com.example.a6175.fangwechat.bean.User;
 import com.example.a6175.fangwechat.db.Author;
@@ -29,14 +27,9 @@ import com.stfalcon.chatkit.dialogs.DialogsList;
 import com.stfalcon.chatkit.dialogs.DialogsListAdapter;
 
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.litepal.LitePal;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Logger;
 
 import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.bean.BmobIMConversation;
@@ -48,8 +41,6 @@ import cn.bmob.newim.listener.MessageListHandler;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 
-import static com.example.a6175.fangwechat.Config.STATUS_VERIFY_NONE;
-
 
 //TODO 不会新增会话
 
@@ -60,7 +51,7 @@ public class WechatFragment extends Fragment implements MessageListHandler {
     private ImageLoader imageLoader;
     private List<DefaultDialog>dialogList;
     private DialogsList dialogsList;
-    private List<Conversation> lists;
+    private List<AbstractConversation> lists;
     List<BmobIMUserInfo> bmobIMUserInfoList;
 
 
@@ -80,7 +71,7 @@ public class WechatFragment extends Fragment implements MessageListHandler {
         imageLoader =new ImageLoader() {
             @Override
             public void loadImage(ImageView imageView, @Nullable String url, @Nullable Object payload) {
-                if (url.equals("")){
+                if ("".equals(url)){
                     Picasso.with(getActivity()).load(R.drawable.default_avatar).into(imageView);
                 }else {
                     Picasso.with(getActivity()).load(url).into(imageView);
@@ -143,7 +134,7 @@ public class WechatFragment extends Fragment implements MessageListHandler {
             BmobIMConversation conversation=list.get(i).getConversation();
             BmobIMMessage BmobIMmessage =list.get(i).getMessage();
             BmobIMUserInfo bmobIMUserInfo = list.get(i).getFromUserInfo();
-            if (BmobIMmessage.getMsgType().equals("txt")){
+            if ("txt".equals(BmobIMmessage.getMsgType())){
                 if (bmobIMUserInfo !=null){
                     List<Author>authorList =new ArrayList<>();
                     Author author =new Author(bmobIMUserInfo.getUserId(),bmobIMUserInfo.getName(), bmobIMUserInfo.getAvatar(),true);
@@ -152,7 +143,7 @@ public class WechatFragment extends Fragment implements MessageListHandler {
                     DefaultDialog defaultDialog=new DefaultDialog(lists.get(i).getcId(),bmobIMUserInfo.getName(),bmobIMUserInfo.getAvatar(),authorList,message,lists.get(i).getUnReadCount());
                 }
 
-            }else if (BmobIMmessage.getMsgType().equals("add")){
+            }else if ("add".equals(BmobIMmessage.getMsgType())){
                 AgreeAddFriendMessage.processCustiomMessage(BmobIMmessage,bmobIMUserInfo);
             }
 
@@ -193,8 +184,8 @@ public class WechatFragment extends Fragment implements MessageListHandler {
      * @return
      */
 
-    private List<Conversation> getConversation(){
-        List<Conversation> conversationList = new ArrayList<>();
+    private List<AbstractConversation> getConversation(){
+        List<AbstractConversation> conversationList = new ArrayList<>();
         conversationList.clear();
         List<BmobIMConversation>list = BmobIM.getInstance().loadAllConversation();
         if (list != null && list.size()>0){

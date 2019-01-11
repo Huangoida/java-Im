@@ -106,10 +106,10 @@ public class User_information extends BaseActivity implements View.OnClickListen
                 UploadAvater();
                 break;
             case R.id.User_nickname_change:
-                ActivityUtils.start_Activity(User_information.this,changeNickName.class);
+                ActivityUtils.startActivity(User_information.this,changeNickName.class);
                 break;
             case R.id.User_more:
-                ActivityUtils.start_Activity(User_information.this,User_more.class);
+                ActivityUtils.startActivity(User_information.this,User_more.class);
                 break;
 
         }

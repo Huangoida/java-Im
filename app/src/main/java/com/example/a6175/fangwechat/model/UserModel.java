@@ -1,8 +1,8 @@
 package com.example.a6175.fangwechat.model;
 
-import com.example.a6175.fangwechat.Utils.ActivityUtils;
+import com.example.a6175.fangwechat.Listener.OnLoginListener;
+import com.example.a6175.fangwechat.Listener.OnRegisetereListener;
 import com.example.a6175.fangwechat.bean.User;
-import com.example.a6175.fangwechat.view.Activity.User_regiseter;
 
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
@@ -46,7 +46,8 @@ public class UserModel implements Imodel {
         user.setMobilePhoneNumber(MobilePhone);
         user.setUsername(Username);
         user.setPassword(password);
-        user.setAvater(bmobFile); // 设置默认头像
+        // 设置默认头像
+        user.setAvater(bmobFile);
         user.signUp(new SaveListener<User>() {
             @Override
             public void done(User user, BmobException e) {

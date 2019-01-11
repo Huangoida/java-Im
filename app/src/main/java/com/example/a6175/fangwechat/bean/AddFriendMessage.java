@@ -40,7 +40,7 @@ public class AddFriendMessage extends BmobIMExtraMessage {
                 Logger.i("AddFriendMessage的extra为空");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.e(e.getMessage());
         }
         return add;
     }

@@ -4,6 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.a6175.fangwechat.bean.NewFriend;
+import com.orhanobut.logger.Logger;
+
 import org.litepal.LitePal;
 
 import java.io.BufferedReader;
@@ -58,7 +61,7 @@ public class ImApplication extends Application {
             mBufferedReader.close();
             return processName;
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.e(e.getMessage());
             return null;
         }
     }

@@ -10,7 +10,7 @@ import cn.bmob.newim.bean.BmobIMConversationType;
 /**
  * 对BmobIMConveration的抽象封装,方便开发者扩展会话类型
  */
-public abstract class Conversation implements Serializable,Comparable{
+public abstract class AbstractConversation implements Serializable,Comparable{
 
     protected BmobIMConversation conversation;
 
@@ -76,10 +76,10 @@ public abstract class Conversation implements Serializable,Comparable{
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Conversation that = (Conversation) o;
-        if (!cId.equals(that.cId)) return false;
+        if (this == o) {return true;}
+        if (o == null || getClass() != o.getClass()){return false; }
+        AbstractConversation that = (AbstractConversation) o;
+        if (!cId.equals(that.cId)) {return false;}
         return cType == that.cType;
     }
 
@@ -93,11 +93,11 @@ public abstract class Conversation implements Serializable,Comparable{
 
     @Override
     public int compareTo(Object another) {
-        if (another instanceof Conversation){
-            Conversation anotherConversation = (Conversation) another;
+        if (another instanceof AbstractConversation){
+            AbstractConversation anotherConversation = (AbstractConversation) another;
             long timeGap = anotherConversation.getLastMessageTime() - getLastMessageTime();
-            if (timeGap > 0) return  1;
-            else if (timeGap < 0) return -1;
+            if (timeGap > 0) {return  1;}
+            else if (timeGap < 0) {return -1;}
             return 0;
         }else{
             throw new ClassCastException();

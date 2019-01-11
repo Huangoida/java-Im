@@ -1,5 +1,7 @@
 package com.example.a6175.fangwechat.Utils;
 
+import com.orhanobut.logger.Logger;
+
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
@@ -31,10 +33,12 @@ public class PingYinUtil {
 							input[i], format);
 					output += temp[0];
 				} else
+				{
 					output += Character.toString(input[i]);
+				}
 			}
 		} catch (BadHanyuPinyinOutputFormatCombination e) {
-			e.printStackTrace();
+			Logger.e(e.getMessage());
 		}
 		return output;
 	}
@@ -58,7 +62,7 @@ public class PingYinUtil {
 					pinyinName += PinyinHelper.toHanyuPinyinStringArray(
 							nameChar[i], defaultFormat)[0].charAt(0);
 				} catch (BadHanyuPinyinOutputFormatCombination e) {
-					e.printStackTrace();
+					Logger.e(e.getMessage());
 				}
 			} else {
 				pinyinName += nameChar[i];

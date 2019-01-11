@@ -18,6 +18,9 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 
+/**
+ * @author 黄逸东
+ */
 public class AddFriend extends BaseActivity implements View.OnClickListener {
 
     private Toolbar toolbar;
@@ -61,15 +64,16 @@ public class AddFriend extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.search_button:
-                FindUser();
+                findUser();
+                break;
+            default:
                 break;
         }
     }
 
-    private void FindUser(){
+    private void findUser(){
         BmobQuery<User> userBmobQuery = new BmobQuery<>("User");
         final String searchName = editText.getText().toString();
-       // userBmobQuery.addWhereContains("mobilePhoneNumber","13979211617");
         userBmobQuery.findObjects(new FindListener<User>() {
             @Override
             public void done(List<User> list, BmobException e) {

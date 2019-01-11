@@ -35,7 +35,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == event.KEYCODE_BACK){
+        if (keyCode == KeyEvent.KEYCODE_BACK){
             ActivityUtils.finish(this);
             return  true;
         }
@@ -65,8 +65,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * 打开Activity
      */
-    public void start_Activity(Activity activity,Class<?> cls) {
-        ActivityUtils.start_Activity(activity,cls);
+    public void startActivity(Activity activity, Class<?> cls) {
+        ActivityUtils.startActivity(activity,cls);
     }
 
     public void finish(Activity activity){
